@@ -6,7 +6,7 @@ packages. It includes offset exceptions and helpers to transform strings and arr
 
 
 
-Licence
+License
 -------
 
-ICanBoogie/Common is licensed under the New BSD Licence - See the LICENCE file for details.
+ICanBoogie/Common is licensed under the New BSD License - See the LICENSE file for details.
