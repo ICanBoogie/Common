@@ -72,7 +72,7 @@ class OffsetNotReadable extends OffsetException
 }
 
 /**
- * Thrown when an array offset is not writable.
+ * Exception thrown when an array offset is not writable.
  */
 class OffsetNotWritable extends OffsetException
 {
