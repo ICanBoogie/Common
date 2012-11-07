@@ -18,8 +18,8 @@ namespace ICanBoogie;
  * {@link ENT_COMPAT} flag.
  *
  * @param string $str The string to escape.
- * @param string $charset The charset of the string to escape. Defaults to {@link ICanBoogie\CHARSET}
- * (utf-8).
+ * @param string $charset The charset of the string to escape. Defaults to
+ * {@link ICanBoogie\CHARSET} (utf-8).
  *
  * @return string
  */
@@ -34,8 +34,8 @@ function escape($str, $charset=CHARSET)
  * Applicable characters are escaped using the {@link htmlentities()} function with the {@link ENT_COMPAT} flag.
  *
  * @param string $str The string to escape.
- * @param string $charset The charset of the string to escape. Defaults to ICanBoogie\CHARSET
- * (utf-8).
+ * @param string $charset The charset of the string to escape. Defaults to
+ * {@link ICanBoogie\CHARSET} (utf-8).
  *
  * @return string
  */
