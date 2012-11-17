@@ -29,5 +29,3 @@ if (function_exists('mb_internal_encoding'))
 {
 	mb_internal_encoding(\ICanBoogie\CHARSET);
 }
-
-require_once ROOT . 'lib/helpers.php';

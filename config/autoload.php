@@ -2,6 +2,7 @@
 
 return array
 (
+	'ICanBoogie\DateTime' => $path . 'lib/datetime.php',
 	'ICanBoogie\OffsetError' => $path . 'lib/exceptions.php',
 	'ICanBoogie\OffsetNotReadable' => $path . 'lib/exceptions.php',
 	'ICanBoogie\OffsetNotWritable' => $path . 'lib/exceptions.php',
