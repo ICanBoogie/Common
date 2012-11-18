@@ -558,3 +558,34 @@ function exact_array_merge_recursive(array $array1, array $array2=array())
 
 	return $merge;
 }
+
+/**
+ * Normalizes the path of a URL.
+ *
+ * @param string $path
+ *
+ * @return string
+ *
+ * @see http://en.wikipedia.org/wiki/URL_normalization
+ */
+function normalize_url_path($path)
+{
+	static $cache = array();
+
+	if (isset($cache[$path]))
+	{
+		return $cache[$path];
+	}
+
+	$normalized = preg_replace('#\/index\.(html|php)$#', '/', $path);
+	$normalized = rtrim($normalized, '/');
+
+	if (!preg_match('#\.[a-z]+$#', $normalized))
+	{
+		$normalized .= '/';
+	}
+
+	$cache[$path] = $normalized;
+
+	return $normalized;
+}
