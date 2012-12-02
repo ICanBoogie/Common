@@ -271,7 +271,7 @@ function dump($value)
  * Formats the given string by replacing placeholders with the values provided.
  *
  * @param string $str The string to format.
- * @param array $args An array of replacement for the placeholders. Occurrences in $str of any
+ * @param array $args An array of replacements for the placeholders. Occurrences in $str of any
  * key in $args are replaced with the corresponding sanitized value. The sanitization function
  * depends on the first character of the key:
  *
@@ -296,7 +296,10 @@ function format($str, array $args=array())
 
 	foreach ($args as $key => $value)
 	{
-		++$i;
+		if (is_callable(array($value, '__toString')))
+		{
+			$value = (string) $value;
+		}
 
 		if (is_array($value) || is_object($value))
 		{
@@ -330,13 +333,12 @@ function format($str, array $args=array())
 				}
 			}
 		}
-		else if (is_numeric($key))
-		{
-			$key = '\\' . $i;
-			$holders['{' . $i . '}'] = $value;
-		}
 
 		$holders[$key] = $value;
+		$holders['\\' . $i] = $value;
+		$holders['{' . $i . '}'] = $value;
+
+		$i++;
 	}
 
 	return strtr($str, $holders);
