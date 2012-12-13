@@ -232,11 +232,11 @@ function hyphenate($str)
 	{
 		$callback = function($match)
 		{
-			return "-" . mb_strtolower(mb_substr($match[0], 0, 1));
+			return '-' . mb_strtolower($match[0]);
 		};
 	}
 
-	return trim(preg_replace_callback('/[A-Z]/', $callback, $str), '-');
+	return trim(preg_replace_callback('/[A-Z]+/', $callback, $str), '-');
 }
 
 /**
