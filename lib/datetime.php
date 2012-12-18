@@ -59,26 +59,26 @@ class DateTime extends \DateTime
 
 		switch ($property)
 		{
+			case 'year':
+				return $this->$property = (int) $this->format('Y');
+			case 'quarter':
+				return $this->$property = floor(($this->__get('month') - 1) / 3) + 1;
+			case 'month':
+				return $this->$property = (int) $this->format('m');
+			case 'week':
+				return $this->$property = (int) $this->format('W');
+			case 'year_day':
+				return $this->$property = (int) $this->format('z') + 1;
+			case 'weekday':
+				return $this->$property = ((int) $this->format('w')) ?: 7;
 			case 'day':
 				return $this->$property = (int) $this->format('d');
 			case 'hour':
 				return $this->$property = (int) $this->format('H');
 			case 'minute':
 				return $this->$property = (int) $this->format('i');
-			case 'month':
-				return $this->$property = (int) $this->format('m');
-			case 'quarter':
-				return $this->$property = floor(($this->__get('month') - 1) / 3) + 1;
 			case 'second':
 				return $this->$property = (int) $this->format('s');
-			case 'week':
-				return $this->$property = (int) $this->format('W');
-			case 'weekday':
-				return $this->$property = (int) $this->format('N');
-			case 'year':
-				return $this->$property = (int) $this->format('Y');
-			case 'year_day':
-				return $this->$property = (int) $this->format('z');
 		}
 
 		throw new PropertyNotDefined(array($property, $this));
