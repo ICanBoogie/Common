@@ -23,7 +23,7 @@ Create a `composer.json` file and run `php composer.phar install` command to ins
 
 ```json
 {
-	"minium-stability": "dev",
+	"minimum-stability": "dev",
 	"require":
 	{
 		"icanboogie/common": "1.0.*"
