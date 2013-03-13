@@ -44,40 +44,48 @@ function escape_all($str, $charset=CHARSET)
 	return htmlentities($str, ENT_COMPAT, $charset);
 }
 
-/**
- * Capitalizes the first letter of each words of the string.
- *
- * @param string $str
- *
- * @return string
- */
-function capitalize($str)
+if (!function_exists(__NAMESPACE__ . '\downcase'))
 {
-	return mb_convert_case($str, MB_CASE_TITLE);
+	/**
+	 * Returns a lowercase string.
+	 *
+	 * @param string $str
+	 *
+	 * @return string
+	 */
+	function downcase($str)
+	{
+		return mb_strtolower($str);
+	}
 }
 
-/**
- * Returns an lowercase string.
- *
- * @param string $str
- *
- * @return string
- */
-function downcase($str)
+if (!function_exists(__NAMESPACE__ . '\upcase'))
 {
-	return mb_strtolower($str);
+	/**
+	 * Returns an uppercase string.
+	 *
+	 * @param string $str
+	 *
+	 * @return string
+	 */
+	function upcase($str)
+	{
+		return mb_strtoupper($str);
+	}
 }
 
-/**
- * Returns an uppercase string.
- *
- * @param string $str
- *
- * @return string
- */
-function upcase($str)
+if (!function_exists(__NAMESPACE__ . '\capitalize'))
 {
-	return mb_strtoupper($str);
+	/**
+	 * Returns a copy of str with the first character converted to uppercase and the
+	 * remainder to lowercase.
+	 *
+	 * @param string $str
+	 */
+	function capitalize($str)
+	{
+		return upcase(mb_substr($str, 0, 1)) . downcase(mb_substr($str, 1));
+	}
 }
 
 /**
@@ -190,53 +198,6 @@ function normalize($str, $separator='-', $charset=CHARSET)
 	$str = trim($str, $separator);
 
 	return $str;
-}
-
-/**
- * Converts a string separated by a specified separator into a camelCase equivalent.
- *
- * For instance, "foo-bar" is converted to "fooBar".
- *
- * @param string $str
- * @param string $separator Defaults to "-".
- *
- * @return string
- */
-function camelize($str, $separator='-')
-{
-	static $callback;
-
-	if (!$callback)
-	{
-		$callback = function($match)
-		{
-			return mb_strtoupper(mb_substr($match[0], 1));
-		};
-	}
-
-	return preg_replace_callback('/' . preg_quote($separator) . '\D/', $callback, $str);
-}
-
-/**
- * Converts a camel-cased string to a hyphenated string.
- *
- * @param string $str
- *
- * @return string
- */
-function hyphenate($str)
-{
-	static $callback;
-
-	if (!$callback)
-	{
-		$callback = function($match)
-		{
-			return '-' . mb_strtolower($match[0]);
-		};
-	}
-
-	return trim(preg_replace_callback('/[A-Z]+/', $callback, $str), '-');
 }
 
 /**
