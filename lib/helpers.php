@@ -257,7 +257,7 @@ function format($str, array $args=array())
 
 	foreach ($args as $key => $value)
 	{
-		if (is_callable(array($value, '__toString')))
+		if (is_object($value) && method_exists($value, '__toString'))
 		{
 			$value = (string) $value;
 		}
