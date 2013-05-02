@@ -436,7 +436,7 @@ function array_flatten($array, $separator='.', $depth=0)
 				continue;
 			}
 
-			$values = array_flatten($value, $separator, $depth + 1);
+			$values = array_flatten($value, $separator);
 
 			foreach ($values as $vkey => $value)
 			{
