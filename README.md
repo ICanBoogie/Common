@@ -1,7 +1,7 @@
 # Common [![Build Status](https://secure.travis-ci.org/ICanBoogie/Common.png?branch=master)](http://travis-ci.org/ICanBoogie/Common)
 
-This package provides the basic classes and helpers shared by all [ICanBoogie](http://icanboogie.org/)
-packages. It includes offset exceptions, property exceptions, and helpers to transform strings
+This package provides basic classes and helpers shared by many [ICanBoogie](http://icanboogie.org/)
+packages. It provides offset exceptions, property exceptions, and helpers to transform strings
 and arrays.
 
 
@@ -18,7 +18,7 @@ The package requires PHP 5.3 or later.
 
 ## Installation
 
-The recommended way to install this package is through [composer](http://getcomposer.org/).
+The recommended way to install this package is through [Composer](http://getcomposer.org/).
 Create a `composer.json` file and run `php composer.phar install` command to install it:
 
 ```json
@@ -26,7 +26,7 @@ Create a `composer.json` file and run `php composer.phar install` command to ins
 	"minimum-stability": "dev",
 	"require":
 	{
-		"icanboogie/common": "1.0.*"
+		"icanboogie/common": "*"
 	}
 }
 ```
@@ -64,6 +64,18 @@ The test suite is ran with the `make test` command. [Composer](http://getcompose
 automatically installed as well as all dependencies required to run the suite. You can later
 clean the directory with the `make clean` command.
 
+The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
+
+[![Build Status](https://travis-ci.org/ICanBoogie/Common.png?branch=master)](https://travis-ci.org/ICanBoogie/Common)
+
+
+
+
+
+## License
+
+ICanBoogie/Common is licensed under the New BSD License - See the LICENSE file for details.
+
 
 
 
@@ -74,9 +86,9 @@ clean the directory with the `make clean` command.
 
 The following exceptions related to array offset are available:
 
-* `OffsetError`: Exception thrown when there is something wrong with an array offset.
-* `OffsetNotReadable`: Exception thrown when an array offset is not readable.
-* `OffsetNotWritable`: Exception thrown when an array offset is not writable.
+* [OffsetError](http://icanboogie.org/docs/class-ICanBoogie.OffsetError.html): Exception thrown when there is something wrong with an array offset.
+* [OffsetNotReadable](http://icanboogie.org/docs/class-ICanBoogie.OffsetNotReadable.html): Exception thrown when an array offset is not readable.
+* [OffsetNotWritable](http://icanboogie.org/docs/class-ICanBoogie.OffsetNotWritable.html): Exception thrown when an array offset is not writable.
 
 
 
@@ -86,10 +98,10 @@ The following exceptions related to array offset are available:
 
 The following exceptions related to object properties are available:
 
-* `PropertyError`: Exception thrown when there is something wrong with an object property.
-* `PropertyNotDefined`: Exception thrown when a property is not defined.
-* `PropertyNotReadable`: Exception thrown when a property is not readable.
-* `PropertyNotWritable`: Exception thrown when a property is not writable.
+* [PropertyError](http://icanboogie.org/docs/class-ICanBoogie.PropertyError.html): Exception thrown when there is something wrong with an object property.
+* [PropertyNotDefined](http://icanboogie.org/docs/class-ICanBoogie.PropertyNotDefined.html): Exception thrown when a property is not defined.
+* [PropertyNotReadable](http://icanboogie.org/docs/class-ICanBoogie.PropertyNotReadable.html): Exception thrown when a property is not readable.
+* [PropertyNotWritable](http://icanboogie.org/docs/class-ICanBoogie.PropertyNotWritable.html): Exception thrown when a property is not writable.
 
 ```php
 <?php
@@ -98,7 +110,7 @@ use ICanBoogie\PropertyNotDefined;
 
 class A
 {
-	protected $id;
+	private $id;
 
 	public function __get($property)
 	{
@@ -111,11 +123,3 @@ class A
 	}
 }
 ```
-
-
-
-
-
-## License
-
-ICanBoogie/Common is licensed under the New BSD License - See the LICENSE file for details.
