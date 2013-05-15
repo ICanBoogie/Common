@@ -371,6 +371,11 @@ function stable_sort(&$array, $picker=null)
  */
 function array_insert($array, $relative, $value, $key=null, $after=false)
 {
+	if ($key)
+	{
+		unset($array[$key]);
+	}
+
 	$keys = array_keys($array);
 	$pos = array_search($relative, $keys, true);
 
