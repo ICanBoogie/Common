@@ -342,7 +342,7 @@ function stable_sort(&$array, $picker=null)
 		(
 			$array, function(&$v, $k) use (&$i, $picker)
 			{
-				$v = array($picker($v), ++$i, $k, $v);
+				$v = array($picker($v, $k), ++$i, $k, $v);
 			}
 		);
 	}
