@@ -20,6 +20,7 @@ transform strings and arrays.
 The following exceptions related to array offset are defined by the package:
 
 * [OffsetError](http://icanboogie.org/docs/class-ICanBoogie.OffsetError.html): Exception thrown when there is something wrong with an array offset.
+* [OffsetNotDefined](http://icanboogie.org/docs/class-ICanBoogie.OffsetNotDefined.html): Exception thrown when an array offset is not defined.
 * [OffsetNotReadable](http://icanboogie.org/docs/class-ICanBoogie.OffsetNotReadable.html): Exception thrown when an array offset is not readable.
 * [OffsetNotWritable](http://icanboogie.org/docs/class-ICanBoogie.OffsetNotWritable.html): Exception thrown when an array offset is not writable.
 

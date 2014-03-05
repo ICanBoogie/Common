@@ -23,11 +23,11 @@ class OffsetError extends \RuntimeException
 }
 
 /**
- * Exception thrown when an offset is not defined.
+ * Exception thrown when an array offset is not defined.
  *
  * For example, this could be triggered by an offset out of bounds while setting an array value.
  */
-class OffsetNotDefined extends PropertyError
+class OffsetNotDefined extends OffsetError
 {
 	public function __construct($message, $code=500, \Exception $previous=null)
 	{
