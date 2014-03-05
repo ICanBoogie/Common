@@ -14,6 +14,10 @@
     <testsuites>
         <testsuite name="ICanBoogie/Common Test Suite">
             <directory>./tests</directory>
+            <exclude>./tests/traits</exclude>
+        </testsuite>
+        <testsuite name="ICanBoogie/Common Trait Tests">
+            <directory phpVersion="5.4.0" phpVersionOperator=">=">./tests/traits</directory>
         </testsuite>
     </testsuites>
 </phpunit>

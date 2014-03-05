@@ -1,12 +1,139 @@
 # Common [![Build Status](https://secure.travis-ci.org/ICanBoogie/Common.png?branch=master)](http://travis-ci.org/ICanBoogie/Common)
 
 This package provides basic classes and helpers shared by many [ICanBoogie](http://icanboogie.org/)
-packages. It provides offset exceptions, property exceptions, and helpers to transform strings
-and arrays.
+packages. It provides offset exceptions, property exceptions, some interfaces, and helpers to
+transform strings and arrays.
 
 
 
 
+
+
+
+
+
+
+## Exceptions
+
+### Offset exceptions
+
+The following exceptions related to array offset are defined by the package:
+
+* [OffsetError](http://icanboogie.org/docs/class-ICanBoogie.OffsetError.html): Exception thrown when there is something wrong with an array offset.
+* [OffsetNotReadable](http://icanboogie.org/docs/class-ICanBoogie.OffsetNotReadable.html): Exception thrown when an array offset is not readable.
+* [OffsetNotWritable](http://icanboogie.org/docs/class-ICanBoogie.OffsetNotWritable.html): Exception thrown when an array offset is not writable.
+
+
+
+
+
+### Property exceptions
+
+The following exceptions related to object properties defined by the package:
+
+* [PropertyError](http://icanboogie.org/docs/class-ICanBoogie.PropertyError.html): Exception thrown when there is something wrong with an object property.
+* [PropertyNotDefined](http://icanboogie.org/docs/class-ICanBoogie.PropertyNotDefined.html): Exception thrown when a property is not defined.
+* [PropertyNotReadable](http://icanboogie.org/docs/class-ICanBoogie.PropertyNotReadable.html): Exception thrown when a property is not readable.
+* [PropertyNotWritable](http://icanboogie.org/docs/class-ICanBoogie.PropertyNotWritable.html): Exception thrown when a property is not writable.
+
+```php
+<?php
+
+use ICanBoogie\PropertyNotDefined;
+
+class A
+{
+	private $id;
+
+	public function __get($property)
+	{
+		if ($property == 'id')
+		{
+			return $this->id;
+		}
+
+		throw new PropertyNotDefined(array($property, $this));
+	}
+}
+```
+
+
+
+
+
+## Interfaces
+
+The following interfaces are defined by the package:
+
+- [ToArray][]: Should be implemented by classes whose instances can be converted into arrays.
+- [ToArrayRecursive][]: Should be implemented by classes whose instances can be converted into
+arrays recursively.
+
+```php
+<?php
+
+use ICanBoogie\ToArray;
+use ICanBoogie\ToArrayRecursive;
+
+class A implements ToArrayRecursive
+{
+	public function to_array()
+	{
+		return (array) $this;
+	}
+
+	public function to_array_recursive()
+	{
+		$array = $this->to_array();
+
+		foreach ($array as $key => &$value)
+		{
+			if ($value instanceof ToArrayRecursive)
+			{
+				$value = $value->to_array_recursive();
+			}
+			else if ($value instanceof ToArray)
+			{
+				$value = $value->to_array();
+			}
+		}
+
+		return $array;
+	}
+}
+```
+
+
+
+
+
+## Traits
+
+For PHP5.4 users, the [ToArrayRecursiveTrait][] trait can be used to define
+the `to_array_recursive()` method.
+
+```php
+<?php
+
+use ICanBoogie\ToArray;
+use ICanBoogie\ToArrayRecursive;
+
+class A implements ToArrayRecursive
+{
+	use ToArrayRecursiveTrait;
+
+	public function to_array()
+	{
+		return (array) $this;
+	}
+}
+```
+
+
+
+
+
+----------
 
 ## Requirement
 
@@ -79,47 +206,6 @@ ICanBoogie/Common is licensed under the New BSD License - See the LICENSE file f
 
 
 
-
-## Available exceptions
-
-### Offset exceptions
-
-The following exceptions related to array offset are available:
-
-* [OffsetError](http://icanboogie.org/docs/class-ICanBoogie.OffsetError.html): Exception thrown when there is something wrong with an array offset.
-* [OffsetNotReadable](http://icanboogie.org/docs/class-ICanBoogie.OffsetNotReadable.html): Exception thrown when an array offset is not readable.
-* [OffsetNotWritable](http://icanboogie.org/docs/class-ICanBoogie.OffsetNotWritable.html): Exception thrown when an array offset is not writable.
-
-
-
-
-
-### Property exceptions
-
-The following exceptions related to object properties are available:
-
-* [PropertyError](http://icanboogie.org/docs/class-ICanBoogie.PropertyError.html): Exception thrown when there is something wrong with an object property.
-* [PropertyNotDefined](http://icanboogie.org/docs/class-ICanBoogie.PropertyNotDefined.html): Exception thrown when a property is not defined.
-* [PropertyNotReadable](http://icanboogie.org/docs/class-ICanBoogie.PropertyNotReadable.html): Exception thrown when a property is not readable.
-* [PropertyNotWritable](http://icanboogie.org/docs/class-ICanBoogie.PropertyNotWritable.html): Exception thrown when a property is not writable.
-
-```php
-<?php
-
-use ICanBoogie\PropertyNotDefined;
-
-class A
-{
-	private $id;
-
-	public function __get($property)
-	{
-		if ($property == 'id')
-		{
-			return $this->id;
-		}
-		
-		throw new PropertyNotDefined(array($property, $this));
-	}
-}
-```
+[ToArray]: http://icanboogie.org/docs/class-ICanBoogie.ToArray.html
+[ToArrayRecursive]: http://icanboogie.org/docs/class-ICanBoogie.ToArrayRecursive.html
+[ToArrayRecursiveTrait]: http://icanboogie.org/docs/class-ICanBoogie.ToArrayRecursiveTrait.html
