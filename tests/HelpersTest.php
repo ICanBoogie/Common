@@ -132,4 +132,91 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
 			$flat
 		);
 	}
+
+	/**
+	 * @dataProvider provide_test_sort_by_weight
+	 */
+	public function test_sort_by_weight($array, $expected)
+	{
+		$this->assertSame($expected, sort_by_weight($array, function($v) { return $v; }));
+	}
+
+	public function provide_test_sort_by_weight()
+	{
+		return array
+		(
+			#1
+
+			array
+			(
+				array
+				(
+					'bottom' => 'bottom',
+					'min' => -10000,
+					'max' => 10000,
+					'top' => 'top'
+				),
+
+				array
+				(
+					'top' => 'top',
+					'min' => -10000,
+					'max' => 10000,
+					'bottom' => 'bottom'
+				)
+			),
+
+			#3: missing relative
+
+			array
+			(
+				array
+				(
+					'two' => 2,
+					'one' => 1,
+					'four' => 'after:three'
+				),
+
+				array
+				(
+					'four' => 'after:three',
+					'one' => 1,
+					'two' => 2
+				)
+			),
+
+			#2
+
+			array
+			(
+				array
+				(
+					'two' => 0,
+					'three' => 0,
+					'bottom' => 'bottom',
+					'megabottom' => 'bottom',
+					'hyperbottom' => 'bottom',
+					'one' => 'before:two',
+					'four' => 'after:three',
+					'top' => 'top',
+					'megatop' => 'top',
+					'hypertop' => 'top'
+				),
+
+				array
+				(
+					'hypertop' => 'top',
+					'megatop' => 'top',
+					'top' => 'top',
+					'one' => 'before:two',
+					'two' => 0,
+					'three' => 0,
+					'four' => 'after:three',
+					'bottom' => 'bottom',
+					'megabottom' => 'bottom',
+					'hyperbottom' => 'bottom'
+				)
+			)
+		);
+	}
 }
