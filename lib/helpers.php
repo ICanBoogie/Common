@@ -247,6 +247,23 @@ function dump($value)
  */
 function format($str, array $args=array())
 {
+	static $quotation_start;
+	static $quotation_end;
+
+	if ($quotation_start === null)
+	{
+		if (PHP_SAPI == 'cli')
+		{
+			$quotation_start = '"';
+			$quotation_end = '"';
+		}
+		else
+		{
+			$quotation_start = '<q>';
+			$quotation_end = '</q>';
+		}
+	}
+
 	if (!$args)
 	{
 		return $str;
@@ -281,14 +298,14 @@ function format($str, array $args=array())
 			{
 				case ':': break;
 				case '!': $value = escape($value); break;
-				case '%': $value = '<q>' . escape($value) . '</q>'; break;
+				case '%': $value = $quotation_start . escape($value) . $quotation_end; break;
 
 				default:
 				{
 					$escaped_value = escape($value);
 
 					$holders['!' . $key] = $escaped_value;
-					$holders['%' . $key] = '<q>' . $escaped_value . '</q>';
+					$holders['%' . $key] = $quotation_start . $escaped_value . $quotation_end;
 
 					$key = ':' . $key;
 				}

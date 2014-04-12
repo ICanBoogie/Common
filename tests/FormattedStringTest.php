@@ -63,7 +63,7 @@ class CommonTest extends \PHPUnit_Framework_TestCase // TODO-20121123: this are 
 	public function testQuoting()
 	{
 		$s = new FormattedString('Testing... %a', array('a' => 'A'));
-		$this->assertEquals('Testing... <q>A</q>', (string) $s);
+		$this->assertEquals('Testing... "A"', (string) $s);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class CommonTest extends \PHPUnit_Framework_TestCase // TODO-20121123: this are 
 	public function testQuotingEscaped()
 	{
 		$s = new FormattedString('Testing... %a', array('a' => 'A<>'));
-		$this->assertEquals('Testing... <q>A&lt;&gt;</q>', (string) $s);
+		$this->assertEquals('Testing... "A&lt;&gt;"', (string) $s);
 	}
 
 	public function testAsIs()
