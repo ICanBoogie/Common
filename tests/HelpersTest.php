@@ -219,4 +219,37 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
 			)
 		);
 	}
+
+	/**
+	 * @dataProvider provide_test_remove_accents
+	 */
+	public function test_remove_accents($expected, $str)
+	{
+		$this->assertEquals($expected, remove_accents($str));
+	}
+
+	public function provide_test_remove_accents()
+	{
+		return array
+		(
+			array('AAAAAAAE', 'ÁÀÂÄÃÅÆ'),
+			array('aaaaaaae', 'áàâäãåæ'),
+			array('C', 'Ç'),
+			array('c', 'ç'),
+			array('EEEE', 'ÉÈÊË'),
+			array('eeee', 'éèêë'),
+			array('IIII', 'ÍÏÎÌ'),
+			array('iiii', 'íìîï'),
+			array('N', 'Ñ'),
+			array('n', 'ñ'),
+			array('OOOOO', 'ÓÒÔÖÕ'),
+			array('oooooo', 'óòôöõø'),
+			array('S', 'Š'),
+			array('s', 'š'),
+			array('UUUU', 'ÚÙÛÜ'),
+			array('uuuu', 'úùûü'),
+			array('YY', 'ÝŸ'),
+			array('yy', 'ýÿ')
+		);
+	}
 }
