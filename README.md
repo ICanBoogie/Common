@@ -1,13 +1,8 @@
-# Common [![Build Status](https://secure.travis-ci.org/ICanBoogie/Common.png?branch=master)](http://travis-ci.org/ICanBoogie/Common)
+# Common [![Build Status](https://secure.travis-ci.org/ICanBoogie/Common.svg?branch=master)](http://travis-ci.org/ICanBoogie/Common)
 
 This package provides basic classes and helpers shared by many [ICanBoogie](http://icanboogie.org/)
 packages. It provides offset exceptions, property exceptions, some interfaces, and helpers to
 transform strings and arrays.
-
-
-
-
-
 
 
 
@@ -194,7 +189,7 @@ clean the directory with the `make clean` command.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
-[![Build Status](https://travis-ci.org/ICanBoogie/Common.png?branch=master)](https://travis-ci.org/ICanBoogie/Common)
+[![Build Status](https://travis-ci.org/ICanBoogie/Common.svg?branch=master)](https://travis-ci.org/ICanBoogie/Common)
 
 
 
@@ -202,7 +197,8 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 ## License
 
-ICanBoogie/Common is licensed under the New BSD License - See the LICENSE file for details.
+ICanBoogie/Common is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
+
 
 
 
