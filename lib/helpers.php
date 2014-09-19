@@ -191,13 +191,22 @@ function unaccent_compare_ci($a, $b)
  */
 function normalize($str, $separator='-', $charset=CHARSET)
 {
+	static $cache;
+
+	$cache_key = $charset . '|' . $separator . '|' . $str;
+
+	if (isset($cache[$cache_key]))
+	{
+		return $cache[$cache_key];
+	}
+
 	$str = str_replace('\'', '', $str);
 	$str = remove_accents($str, $charset);
 	$str = strtolower($str);
 	$str = preg_replace('#[^a-z0-9]+#', $separator, $str);
 	$str = trim($str, $separator);
 
-	return $str;
+	return $cache[$cache_key] = $str;
 }
 
 /**
