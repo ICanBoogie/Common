@@ -649,6 +649,8 @@ function normalize_url_path($path)
 {
 	static $cache = array();
 
+	$path = (string) $path;
+
 	if (isset($cache[$path]))
 	{
 		return $cache[$path];
