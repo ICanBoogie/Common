@@ -17,8 +17,11 @@ class ToArrayRecursiveTraitTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider provide_instances
+	 *
+	 * @param A $instance
+	 * @param array $expected
 	 */
-	public function test_to_array_recursive($instance, $expected)
+	public function test_to_array_recursive(A $instance, $expected)
 	{
 		$this->assertEquals($expected, $instance->to_array_recursive());
 	}
