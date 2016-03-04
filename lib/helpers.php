@@ -248,10 +248,10 @@ function dump($value)
  * depends on the first character of the key:
  *
  * * :key: Replace as is. Use this for text that has already been sanitized.
- * * !key: Sanitize using the `ICanBoogie\escape()` function.
+ * * !key or {key}: Sanitize using the `ICanBoogie\escape()` function.
  * * %key: Sanitize using the `ICanBoogie\escape()` function and wrap inside a "EM" markup.
  *
- * Numeric indexes can also be used e.g '\2' or "{2}" are replaced by the value of the index
+ * Numeric indexes can also be used e.g "\\2" or "{2}" are replaced by the value of the index
  * "2".
  *
  * @return string
@@ -265,8 +265,8 @@ function format($str, array $args=array())
 	{
 		if (PHP_SAPI == 'cli')
 		{
-			$quotation_start = '"';
-			$quotation_end = '"';
+			$quotation_start = '`';
+			$quotation_end = '`';
 		}
 		else
 		{
@@ -321,6 +321,7 @@ function format($str, array $args=array())
 				default:
 					$escaped_value = escape($value);
 
+					$holders['{' . $key . '}'] = $escaped_value;
 					$holders['!' . $key] = $escaped_value;
 					$holders['%' . $key] = $quotation_start . $escaped_value . $quotation_end;
 

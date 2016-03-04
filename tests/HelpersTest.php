@@ -252,4 +252,33 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
 			array('yy', 'ýÿ')
 		);
 	}
+
+	/**
+	 * @dataProvider provide_test_format
+	 *
+	 * @param string $format
+	 * @param array $args
+	 * @param string $expected
+	 */
+	public function test_format($format, array $args, $expected)
+	{
+		$this->assertEquals($expected, format($format, $args));
+	}
+
+	/**
+	 * @return array
+	 */
+	public function provide_test_format()
+	{
+		return array(
+
+			array("abc \\0", array( '<def' ), "abc <def"),
+			array("abc {0}", array( '<def' ), "abc <def"),
+			array("abc {a1}", array( 'a1' => '<def' ), "abc &lt;def"),
+			array("abc :a1", array( 'a1' => '<def' ), "abc <def"),
+			array("abc !a1", array( 'a1' => '<def' ), "abc &lt;def"),
+			array("abc %a1", array( 'a1' => '<def' ), "abc `&lt;def`")
+
+		);
+	}
 }
