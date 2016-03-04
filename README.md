@@ -1,6 +1,6 @@
 # Common 
 
-[![Release](https://img.shields.io/packagist/v/ICanBoogie/Common.svg)](https://packagist.org/packages/ICanBoogie/Common/releases)
+[![Release](https://img.shields.io/packagist/v/icanboogie/common.svg)](https://packagist.org/packages/icanboogie/common)
 [![Build Status](https://img.shields.io/travis/ICanBoogie/Common/master.svg)](http://travis-ci.org/ICanBoogie/Common)
 [![HHVM](https://img.shields.io/hhvm/icanboogie/common.svg)](http://hhvm.h4cc.de/package/icanboogie/common)
 [![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/Common/master.svg)](https://scrutinizer-ci.com/g/ICanBoogie/Common)
