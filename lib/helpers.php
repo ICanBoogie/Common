@@ -81,6 +81,8 @@ if (!function_exists(__NAMESPACE__ . '\capitalize'))
 	 * remainder to lowercase.
 	 *
 	 * @param string $str
+	 *
+	 * @return string
 	 */
 	function capitalize($str)
 	{
@@ -141,8 +143,8 @@ function remove_accents($str, $charset=CHARSET)
 	$str = htmlentities($str, ENT_NOQUOTES, $charset);
 
 	$str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
-	$str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
-	$str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
+	$str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // ligatures e.g. '&oelig;'
+	$str = preg_replace('#&[^;]+;#', '', $str); // remove other escaped characters
 
 	return $str;
 }
@@ -294,30 +296,35 @@ function format($str, array $args=array())
 		}
 		else if (is_bool($value))
 		{
-			$value = $value ? '<em>true</em>' : '<em>false</em>';
+			$value = $value ? '`true`' : '`false`';
 		}
 		else if (is_null($value))
 		{
-			$value = '<em>null</em>';
+			$value = '`null`';
 		}
 
 		if (is_string($key))
 		{
 			switch ($key{0})
 			{
-				case ':': break;
-				case '!': $value = escape($value); break;
-				case '%': $value = $quotation_start . escape($value) . $quotation_end; break;
+				case ':':
+					break;
+
+				case '!':
+					$value = escape($value);
+					break;
+
+				case '%':
+					$value = $quotation_start . escape($value) . $quotation_end;
+					break;
 
 				default:
-				{
 					$escaped_value = escape($value);
 
 					$holders['!' . $key] = $escaped_value;
 					$holders['%' . $key] = $quotation_start . $escaped_value . $quotation_end;
 
 					$key = ':' . $key;
-				}
 			}
 		}
 

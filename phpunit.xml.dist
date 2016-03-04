@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false"
-         bootstrap="./tests/bootstrap.php"
+		 backupStaticAttributes="false"
+		 colors="true"
+		 convertErrorsToExceptions="true"
+		 convertNoticesToExceptions="true"
+		 convertWarningsToExceptions="true"
+		 processIsolation="false"
+		 stopOnFailure="false"
+		 syntaxCheck="false"
+		 bootstrap="./tests/bootstrap.php"
 >
-    <testsuites>
-        <testsuite name="ICanBoogie/Common Test Suite">
-            <directory>./tests</directory>
-            <exclude>./tests/traits</exclude>
-        </testsuite>
-        <testsuite name="ICanBoogie/Common Trait Tests">
-            <directory phpVersion="5.4.0" phpVersionOperator=">=">./tests/traits</directory>
-        </testsuite>
-    </testsuites>
+	<testsuites>
+		<testsuite name="icanboogie/common">
+			<directory>./tests</directory>
+			<exclude>./tests/traits</exclude>
+		</testsuite>
+		<testsuite name="icanboogie/common, php 5.4+">
+			<directory phpVersion="5.4.0" phpVersionOperator=">=">./tests/traits</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">./lib</directory>
+		</whitelist>
+	</filter>
 </phpunit>
