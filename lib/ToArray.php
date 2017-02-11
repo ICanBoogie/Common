@@ -20,13 +20,3 @@ interface ToArray
 	 */
 	public function to_array();
 }
-
-interface ToArrayRecursive extends ToArray
-{
-	/**
-	 * Converts the object into an array recursively.
-	 *
-	 * @return array
-	 */
-	public function to_array_recursive();
-}

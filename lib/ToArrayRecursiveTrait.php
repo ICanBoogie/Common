@@ -11,6 +11,9 @@
 
 namespace ICanBoogie;
 
+/**
+ * Implements {@link ToArrayRecursive}.
+ */
 trait ToArrayRecursiveTrait
 {
 	/**
