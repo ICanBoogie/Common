@@ -1,10 +1,10 @@
 # Common 
 
 [![Release](https://img.shields.io/packagist/v/icanboogie/common.svg)](https://packagist.org/packages/icanboogie/common)
-[![Build Status](https://img.shields.io/travis/ICanBoogie/Common/master.svg)](http://travis-ci.org/ICanBoogie/Common)
+[![Build Status](https://img.shields.io/travis/ICanBoogie/Common.svg)](http://travis-ci.org/ICanBoogie/Common)
 [![HHVM](https://img.shields.io/hhvm/icanboogie/common.svg)](http://hhvm.h4cc.de/package/icanboogie/common)
-[![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/Common/master.svg)](https://scrutinizer-ci.com/g/ICanBoogie/Common)
-[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/Common/master.svg)](https://coveralls.io/r/ICanBoogie/Common)
+[![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/Common.svg)](https://scrutinizer-ci.com/g/ICanBoogie/Common)
+[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/Common.svg)](https://coveralls.io/r/ICanBoogie/Common)
 [![Packagist](https://img.shields.io/packagist/dt/icanboogie/common.svg)](https://packagist.org/packages/icanboogie/common)
 
 This package provides basic classes and helpers shared by many [ICanBoogie][]
@@ -34,10 +34,10 @@ The following exceptions related to array offset are defined by the package:
 
 The following exceptions related to object properties defined by the package:
 
-* [PropertyError](http://api.icanboogie.org/common/1.2/class-ICanBoogie.PropertyError.html): Exception thrown when there is something wrong with an object property.
-* [PropertyNotDefined](http://api.icanboogie.org/common/1.2/class-ICanBoogie.PropertyNotDefined.html): Exception thrown when a property is not defined.
-* [PropertyNotReadable](http://api.icanboogie.org/common/1.2/class-ICanBoogie.PropertyNotReadable.html): Exception thrown when a property is not readable.
-* [PropertyNotWritable](http://api.icanboogie.org/common/1.2/class-ICanBoogie.PropertyNotWritable.html): Exception thrown when a property is not writable.
+* [PropertyError][]: Exception thrown when there is something wrong with an object property.
+* [PropertyNotDefined][]: Exception thrown when a property is not defined.
+* [PropertyNotReadable][]: Exception thrown when a property is not readable.
+* [PropertyNotWritable][]: Exception thrown when a property is not writable.
 
 ```php
 <?php
@@ -190,7 +190,7 @@ clean the directory with the `make clean` command.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
-[![Build Status](https://img.shields.io/travis/ICanBoogie/Common/master.svg)](http://travis-ci.org/ICanBoogie/Common)
+[![Build Status](https://img.shields.io/travis/ICanBoogie/Common.svg)](http://travis-ci.org/ICanBoogie/Common)
 
 
 
@@ -204,16 +204,16 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 
 
-[documentation]:         http://api.icanboogie.org/common/1.2/
-[OffsetError]:           http://api.icanboogie.org/common/1.2/class-ICanBoogie.OffsetError.html
-[OffsetNotDefined]:      http://api.icanboogie.org/common/1.2/class-ICanBoogie.OffsetNotDefined.html
-[OffsetNotReadable]:     http://api.icanboogie.org/common/1.2/class-ICanBoogie.OffsetNotReadable.html
-[OffsetNotWritable]:     http://api.icanboogie.org/common/1.2/class-ICanBoogie.OffsetNotWritable.html
-[PropertyError]:         http://api.icanboogie.org/common/1.2/class-ICanBoogie.PropertyError.html
-[PropertyNotDefined]:    http://api.icanboogie.org/common/1.2/class-ICanBoogie.PropertyNotDefined.html
-[PropertyNotReadable]:   http://api.icanboogie.org/common/1.2/class-ICanBoogie.PropertyNotReadable.html
-[PropertyNotWritable]:   http://api.icanboogie.org/common/1.2/class-ICanBoogie.PropertyNotWritable.html
-[ToArray]:               http://api.icanboogie.org/common/1.2/class-ICanBoogie.ToArray.html
-[ToArrayRecursive]:      http://api.icanboogie.org/common/1.2/class-ICanBoogie.ToArrayRecursive.html
-[ToArrayRecursiveTrait]: http://api.icanboogie.org/common/1.2/class-ICanBoogie.ToArrayRecursiveTrait.html
-[ICanBoogie]:            http://icanboogie.org/
+[documentation]:         https://icanboogie.org/api/common/1.2/
+[OffsetError]:           https://icanboogie.org/api/common/1.2/class-ICanBoogie.OffsetError.html
+[OffsetNotDefined]:      https://icanboogie.org/api/common/1.2/class-ICanBoogie.OffsetNotDefined.html
+[OffsetNotReadable]:     https://icanboogie.org/api/common/1.2/class-ICanBoogie.OffsetNotReadable.html
+[OffsetNotWritable]:     https://icanboogie.org/api/common/1.2/class-ICanBoogie.OffsetNotWritable.html
+[PropertyError]:         https://icanboogie.org/api/common/1.2/class-ICanBoogie.PropertyError.html
+[PropertyNotDefined]:    https://icanboogie.org/api/common/1.2/class-ICanBoogie.PropertyNotDefined.html
+[PropertyNotReadable]:   https://icanboogie.org/api/common/1.2/class-ICanBoogie.PropertyNotReadable.html
+[PropertyNotWritable]:   https://icanboogie.org/api/common/1.2/class-ICanBoogie.PropertyNotWritable.html
+[ToArray]:               https://icanboogie.org/api/common/1.2/class-ICanBoogie.ToArray.html
+[ToArrayRecursive]:      https://icanboogie.org/api/common/1.2/class-ICanBoogie.ToArrayRecursive.html
+[ToArrayRecursiveTrait]: https://icanboogie.org/api/common/1.2/class-ICanBoogie.ToArrayRecursiveTrait.html
+[ICanBoogie]:            https://icanboogie.org/
