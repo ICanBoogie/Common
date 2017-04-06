@@ -4,6 +4,7 @@ cache:
   directories:
     - $COMPOSER_CACHE_DIR
     - $HOME/.composer/cache
+    - $TRAVIS_BUILD_DIR/build
 
 language: php
 
@@ -14,16 +15,9 @@ php:
   - 5.6
   - 7.0
   - 7.1
-  - hhvm
 
 before_script:
-  - if [[ $TRAVIS_PHP_VERSION != "5.4" ]]; then composer install; fi
-  - if [[ $TRAVIS_PHP_VERSION = "5.4" ]]; then composer require satooshi/php-coveralls; fi
+  - if [[ $TRAVIS_PHP_VERSION != "5.4" ]]; then phpenv config-rm xdebug.ini; fi
 
 script:
-  - mkdir -p build/logs
-  - if [[ $TRAVIS_PHP_VERSION != "5.4" ]]; then vendor/bin/phpunit; fi
-  - if [[ $TRAVIS_PHP_VERSION = "5.4" ]]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
-
-after_success:
-  - if [[ "$TRAVIS_PHP_VERSION" = "5.4" ]]; then php vendor/bin/coveralls -v; fi
+  - if [[ $TRAVIS_PHP_VERSION == "5.4" ]]; then make test-coveralls; else make test; fi
