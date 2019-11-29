@@ -305,7 +305,7 @@ function format($str, array $args=array())
 
 		if (is_string($key))
 		{
-			switch ($key{0})
+			switch ($key[0])
 			{
 				case ':':
 					break;
