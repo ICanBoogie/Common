@@ -11,14 +11,11 @@
 
 namespace ICanBoogie;
 
-/**
- * Exception thrown when there is something wrong with an object property.
- *
- * This is the base class for property exceptions, one should rather use the
- * {@link PropertyNotDefined}, {@link PropertyNotReadable} or {@link PropertyNotWritable}
- * exceptions.
- */
-class PropertyError extends \RuntimeException
-{
+use Throwable;
 
+/**
+ * An interface for exceptions related to properties.
+ */
+interface PropertyError extends Throwable
+{
 }

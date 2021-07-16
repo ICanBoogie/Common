@@ -23,12 +23,10 @@ composer require icanboogie/common
 
 The following exceptions related to array offset are defined by the package:
 
-* [OffsetError][]: Exception thrown when there is something wrong with an array offset.
+* [OffsetError][]: Interface for offset errors.
 * [OffsetNotDefined][]: Exception thrown when an array offset is not defined.
 * [OffsetNotReadable][]: Exception thrown when an array offset is not readable.
 * [OffsetNotWritable][]: Exception thrown when an array offset is not writable.
-
-
 
 
 
@@ -36,7 +34,7 @@ The following exceptions related to array offset are defined by the package:
 
 The following exceptions related to object properties defined by the package:
 
-* [PropertyError][]: Exception thrown when there is something wrong with an object property.
+* [PropertyError][]: Interface for property errors.
 * [PropertyNotDefined][]: Exception thrown when a property is not defined.
 * [PropertyNotReadable][]: Exception thrown when a property is not readable.
 * [PropertyNotWritable][]: Exception thrown when a property is not writable.
@@ -50,19 +48,16 @@ class A
 {
 	private $id;
 
-	public function __get($property)
+	public function __get(string $property)
 	{
-		if ($property == 'id')
-		{
+		if ($property === 'id') {
 			return $this->id;
 		}
 
-		throw new PropertyNotDefined(array($property, $this));
+		throw new PropertyNotDefined([ $property, $this ]);
 	}
 }
 ```
-
-
 
 
 
@@ -82,59 +77,14 @@ use ICanBoogie\ToArrayRecursive;
 
 class A implements ToArrayRecursive
 {
-	public function to_array()
-	{
-		return (array) $this;
-	}
-
-	public function to_array_recursive()
-	{
-		$array = $this->to_array();
-
-		foreach ($array as $key => &$value)
-		{
-			if ($value instanceof ToArrayRecursive)
-			{
-				$value = $value->to_array_recursive();
-			}
-			else if ($value instanceof ToArray)
-			{
-				$value = $value->to_array();
-			}
-		}
-
-		return $array;
-	}
-}
-```
-
-
-
-
-
-## Traits
-
-For PHP5.4 users, the [ToArrayRecursiveTrait][] trait can be used to define
-the `to_array_recursive()` method.
-
-```php
-<?php
-
-use ICanBoogie\ToArrayRecursive;
-use ICanBoogie\ToArrayRecursiveTrait;
-
-class A implements ToArrayRecursive
-{
 	use ToArrayRecursiveTrait;
 
-	public function to_array()
+	public function to_array(): array
 	{
 		return (array) $this;
 	}
 }
 ```
-
-
 
 
 
@@ -147,6 +97,7 @@ class A implements ToArrayRecursive
 The project is continuously tested by [GitHub actions](https://github.com/ICanBoogie/Common/actions).
 
 [![Tests](https://github.com/ICanBoogie/Common/workflows/test/badge.svg?branch=master)](https://github.com/ICanBoogie/master/actions?query=workflow%3Atest)
+[![Code Style](https://github.com/ICanBoogie/Common/workflows/code-style/badge.svg?branch=master)](https://github.com/ICanBoogie/Common/actions?query=workflow%3Acode-style)
 
 
 

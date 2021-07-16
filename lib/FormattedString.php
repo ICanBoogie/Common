@@ -18,47 +18,44 @@ namespace ICanBoogie;
  */
 class FormattedString
 {
-	/**
-	 * String format.
-	 *
-	 * @var string
-	 */
-	protected $format;
+    /**
+     * String format.
+     *
+     * @var string
+     */
+    private $format;
 
-	/**
-	 * An array of replacements for the placeholders.
-	 *
-	 * @var array
-	 */
-	protected $args;
+    /**
+     * An array of replacements for the placeholders.
+     *
+     * @var array
+     */
+    private $args;
 
-	/**
-	 * Initializes the {@link $format} and {@link $args} properties.
-	 *
-	 * @param string $format String format.
-	 * @param array $args Format arguments.
-	 *
-	 * @see format()
-	 */
-	public function __construct($format, $args=null)
-	{
-		if (!is_array($args))
-		{
-			$args = func_get_args();
-			array_shift($args);
-		}
+    /**
+     * Initializes the {@link $format} and {@link $args} properties.
+     *
+     * @param string $format String format.
+     * @param mixed $args Format arguments.
+     *
+     * @see format()
+     */
+    public function __construct(string $format, $args = null)
+    {
+        if (!is_array($args)) {
+            $args = func_get_args();
+            array_shift($args);
+        }
 
-		$this->format = $format;
-		$this->args = (array) $args;
-	}
+        $this->format = $format;
+        $this->args = (array) $args;
+    }
 
-	/**
-	 * Returns the string formatted with the {@link format()} function.
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return format($this->format, $this->args);
-	}
+    /**
+     * Returns the string formatted with the {@link format()} function.
+     */
+    public function __toString(): string
+    {
+        return format($this->format, $this->args);
+    }
 }

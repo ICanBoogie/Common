@@ -13,10 +13,8 @@ namespace ICanBoogie;
 
 interface ToArray
 {
-	/**
-	 * Converts the object into an array.
-	 *
-	 * @return array
-	 */
-	public function to_array();
+    /**
+     * Converts the object into an array.
+     */
+    public function to_array(): array;
 }

@@ -9,276 +9,241 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie;
+namespace Tests\ICanBoogie;
 
-class HelpersTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+use function ICanBoogie\array_flatten;
+use function ICanBoogie\format;
+use function ICanBoogie\remove_accents;
+use function ICanBoogie\sort_by_weight;
+
+final class HelpersTest extends TestCase
 {
-	public function arrayProvider()
-	{
-		return array
-		(
-			array
-			(
-				array
-				(
-					'one' => array
-					(
-						'one' => 1,
-						'two' => array
-						(
-							'one' => 1,
-							'two' => 2,
-							'three' => array
-							(
-								'one' => 1,
-								'two' => 2,
-								'three' => 3
-							)
-						),
+    public function arrayProvider(): array
+    {
+        return [
+            [
+                [
+                    'one' => [
+                        'one' => 1,
+                        'two' => [
+                            'one' => 1,
+                            'two' => 2,
+                            'three' => [
+                                'one' => 1,
+                                'two' => 2,
+                                'three' => 3
+                            ]
+                        ],
 
-						'three' => array
-						(
-							'one' => array
-							(
-								'one' => 1,
-								'two' => 2,
-								'three' => 3
-							),
+                        'three' => [
+                            'one' => [
+                                'one' => 1,
+                                'two' => 2,
+                                'three' => 3
+                            ],
 
-							'two' => array
-							(
-								'one' => 1,
-								'two' => 2,
-								'three' => 3
-							),
+                            'two' => [
+                                'one' => 1,
+                                'two' => 2,
+                                'three' => 3
+                            ],
 
-							'three' => 3
-						)
-					),
+                            'three' => 3
+                        ]
+                    ],
 
-					'two' => array
-					(
-						'one' => 1,
-						'two' => 2,
-						'three' => 3
-					)
-				)
-			)
-		);
-	}
+                    'two' => [
+                        'one' => 1,
+                        'two' => 2,
+                        'three' => 3
+                    ]
+                ]
+            ]
+        ];
+    }
 
-	/**
-	 * @dataProvider arrayProvider()
-	 */
-	public function testArrayFlatten($data)
-	{
-		$flat = array_flatten($data);
+    /**
+     * @dataProvider arrayProvider()
+     */
+    public function testArrayFlatten(array $data): void
+    {
+        $flat = array_flatten($data);
 
-		$this->assertEquals
-		(
-			array
-			(
-				'one.one' => 1,
-				'one.two.one' => 1,
-				'one.two.two' => 2,
-				'one.two.three.one' => 1,
-				'one.two.three.two' => 2,
-				'one.two.three.three' => 3,
-				'one.three.one.one' => 1,
-				'one.three.one.two' => 2,
-				'one.three.one.three' => 3,
-				'one.three.two.one' => 1,
-				'one.three.two.two' => 2,
-				'one.three.two.three' => 3,
-				'one.three.three' => 3,
-				'two.one' => 1,
-				'two.two' => 2,
-				'two.three' => 3
-			),
+        $this->assertEquals([
+            'one.one' => 1,
+            'one.two.one' => 1,
+            'one.two.two' => 2,
+            'one.two.three.one' => 1,
+            'one.two.three.two' => 2,
+            'one.two.three.three' => 3,
+            'one.three.one.one' => 1,
+            'one.three.one.two' => 2,
+            'one.three.one.three' => 3,
+            'one.three.two.one' => 1,
+            'one.three.two.two' => 2,
+            'one.three.two.three' => 3,
+            'one.three.three' => 3,
+            'two.one' => 1,
+            'two.two' => 2,
+            'two.three' => 3
+        ], $flat);
+    }
 
-			$flat
-		);
-	}
+    /**
+     * @dataProvider arrayProvider()
+     */
+    public function testArrayFlattenDouble(array $data)
+    {
+        $flat = array_flatten($data, [ '[', ']' ]);
 
-	/**
-	 * @dataProvider arrayProvider()
-	 */
-	public function testArrayFlattenDouble($data)
-	{
-		$flat = array_flatten($data, array('[', ']'));
+        $this->assertEquals([
+            'one[one]' => 1,
+            'one[two][one]' => 1,
+            'one[two][two]' => 2,
+            'one[two][three][one]' => 1,
+            'one[two][three][two]' => 2,
+            'one[two][three][three]' => 3,
+            'one[three][one][one]' => 1,
+            'one[three][one][two]' => 2,
+            'one[three][one][three]' => 3,
+            'one[three][two][one]' => 1,
+            'one[three][two][two]' => 2,
+            'one[three][two][three]' => 3,
+            'one[three][three]' => 3,
+            'two[one]' => 1,
+            'two[two]' => 2,
+            'two[three]' => 3
+        ], $flat);
+    }
 
-		$this->assertEquals
-		(
-			array
-			(
-				'one[one]' => 1,
-				'one[two][one]' => 1,
-				'one[two][two]' => 2,
-				'one[two][three][one]' => 1,
-				'one[two][three][two]' => 2,
-				'one[two][three][three]' => 3,
-				'one[three][one][one]' => 1,
-				'one[three][one][two]' => 2,
-				'one[three][one][three]' => 3,
-				'one[three][two][one]' => 1,
-				'one[three][two][two]' => 2,
-				'one[three][two][three]' => 3,
-				'one[three][three]' => 3,
-				'two[one]' => 1,
-				'two[two]' => 2,
-				'two[three]' => 3
-			),
+    /**
+     * @dataProvider provide_test_sort_by_weight
+     */
+    public function test_sort_by_weight(array $array, array $expected): void
+    {
+        $this->assertSame($expected, sort_by_weight($array, function ($v) {
+            return $v;
+        }));
+    }
 
-			$flat
-		);
-	}
+    public function provide_test_sort_by_weight(): array
+    {
+        return [
+            #1
 
-	/**
-	 * @dataProvider provide_test_sort_by_weight
-	 */
-	public function test_sort_by_weight($array, $expected)
-	{
-		$this->assertSame($expected, sort_by_weight($array, function($v) { return $v; }));
-	}
+            [
+                [
+                    'bottom' => 'bottom',
+                    'min' => -10000,
+                    'max' => 10000,
+                    'top' => 'top'
+                ],
 
-	public function provide_test_sort_by_weight()
-	{
-		return array
-		(
-			#1
+                [
+                    'top' => 'top',
+                    'min' => -10000,
+                    'max' => 10000,
+                    'bottom' => 'bottom'
+                ]
+            ],
 
-			array
-			(
-				array
-				(
-					'bottom' => 'bottom',
-					'min' => -10000,
-					'max' => 10000,
-					'top' => 'top'
-				),
+            "missing relative" => [
+                [
+                    'two' => 2,
+                    'one' => 1,
+                    'four' => 'after:three'
+                ],
 
-				array
-				(
-					'top' => 'top',
-					'min' => -10000,
-					'max' => 10000,
-					'bottom' => 'bottom'
-				)
-			),
+                [
+                    'four' => 'after:three',
+                    'one' => 1,
+                    'two' => 2
+                ]
+            ],
 
-			#3: missing relative
+            [
+                [
+                    'two' => 0,
+                    'three' => 0,
+                    'bottom' => 'bottom',
+                    'megabottom' => 'bottom',
+                    'hyperbottom' => 'bottom',
+                    'one' => 'before:two',
+                    'four' => 'after:three',
+                    'top' => 'top',
+                    'megatop' => 'top',
+                    'hypertop' => 'top'
+                ],
 
-			array
-			(
-				array
-				(
-					'two' => 2,
-					'one' => 1,
-					'four' => 'after:three'
-				),
+                [
+                    'hypertop' => 'top',
+                    'megatop' => 'top',
+                    'top' => 'top',
+                    'one' => 'before:two',
+                    'two' => 0,
+                    'three' => 0,
+                    'four' => 'after:three',
+                    'bottom' => 'bottom',
+                    'megabottom' => 'bottom',
+                    'hyperbottom' => 'bottom'
+                ]
+            ]
+        ];
+    }
 
-				array
-				(
-					'four' => 'after:three',
-					'one' => 1,
-					'two' => 2
-				)
-			),
+    /**
+     * @dataProvider provide_test_remove_accents
+     */
+    public function test_remove_accents(string $expected, string $str): void
+    {
+        $this->assertEquals($expected, remove_accents($str));
+    }
 
-			#2
+    public function provide_test_remove_accents(): array
+    {
+        return [
+            [ 'AAAAAAAE', 'ÁÀÂÄÃÅÆ' ],
+            [ 'aaaaaaae', 'áàâäãåæ' ],
+            [ 'C', 'Ç' ],
+            [ 'c', 'ç' ],
+            [ 'EEEE', 'ÉÈÊË' ],
+            [ 'eeee', 'éèêë' ],
+            [ 'IIII', 'ÍÏÎÌ' ],
+            [ 'iiii', 'íìîï' ],
+            [ 'N', 'Ñ' ],
+            [ 'n', 'ñ' ],
+            [ 'OOOOO', 'ÓÒÔÖÕ' ],
+            [ 'oooooo', 'óòôöõø' ],
+            [ 'S', 'Š' ],
+            [ 's', 'š' ],
+            [ 'UUUU', 'ÚÙÛÜ' ],
+            [ 'uuuu', 'úùûü' ],
+            [ 'YY', 'ÝŸ' ],
+            [ 'yy', 'ýÿ' ]
+        ];
+    }
 
-			array
-			(
-				array
-				(
-					'two' => 0,
-					'three' => 0,
-					'bottom' => 'bottom',
-					'megabottom' => 'bottom',
-					'hyperbottom' => 'bottom',
-					'one' => 'before:two',
-					'four' => 'after:three',
-					'top' => 'top',
-					'megatop' => 'top',
-					'hypertop' => 'top'
-				),
+    /**
+     * @dataProvider provide_test_format
+     */
+    public function test_format(string $format, array $args, string $expected): void
+    {
+        $this->assertEquals($expected, format($format, $args));
+    }
 
-				array
-				(
-					'hypertop' => 'top',
-					'megatop' => 'top',
-					'top' => 'top',
-					'one' => 'before:two',
-					'two' => 0,
-					'three' => 0,
-					'four' => 'after:three',
-					'bottom' => 'bottom',
-					'megabottom' => 'bottom',
-					'hyperbottom' => 'bottom'
-				)
-			)
-		);
-	}
+    public function provide_test_format(): array
+    {
+        return [
 
-	/**
-	 * @dataProvider provide_test_remove_accents
-	 */
-	public function test_remove_accents($expected, $str)
-	{
-		$this->assertEquals($expected, remove_accents($str));
-	}
+            [ "abc \\0", [ '<def' ], "abc <def" ],
+            [ "abc {0}", [ '<def' ], "abc <def" ],
+            [ "abc {a1}", [ 'a1' => '<def' ], "abc &lt;def" ],
+            [ "abc :a1", [ 'a1' => '<def' ], "abc <def" ],
+            [ "abc !a1", [ 'a1' => '<def' ], "abc &lt;def" ],
+            [ "abc %a1", [ 'a1' => '<def' ], "abc `&lt;def`" ]
 
-	public function provide_test_remove_accents()
-	{
-		return array
-		(
-			array('AAAAAAAE', 'ÁÀÂÄÃÅÆ'),
-			array('aaaaaaae', 'áàâäãåæ'),
-			array('C', 'Ç'),
-			array('c', 'ç'),
-			array('EEEE', 'ÉÈÊË'),
-			array('eeee', 'éèêë'),
-			array('IIII', 'ÍÏÎÌ'),
-			array('iiii', 'íìîï'),
-			array('N', 'Ñ'),
-			array('n', 'ñ'),
-			array('OOOOO', 'ÓÒÔÖÕ'),
-			array('oooooo', 'óòôöõø'),
-			array('S', 'Š'),
-			array('s', 'š'),
-			array('UUUU', 'ÚÙÛÜ'),
-			array('uuuu', 'úùûü'),
-			array('YY', 'ÝŸ'),
-			array('yy', 'ýÿ')
-		);
-	}
-
-	/**
-	 * @dataProvider provide_test_format
-	 *
-	 * @param string $format
-	 * @param array $args
-	 * @param string $expected
-	 */
-	public function test_format($format, array $args, $expected)
-	{
-		$this->assertEquals($expected, format($format, $args));
-	}
-
-	/**
-	 * @return array
-	 */
-	public function provide_test_format()
-	{
-		return array(
-
-			array("abc \\0", array( '<def' ), "abc <def"),
-			array("abc {0}", array( '<def' ), "abc <def"),
-			array("abc {a1}", array( 'a1' => '<def' ), "abc &lt;def"),
-			array("abc :a1", array( 'a1' => '<def' ), "abc <def"),
-			array("abc !a1", array( 'a1' => '<def' ), "abc &lt;def"),
-			array("abc %a1", array( 'a1' => '<def' ), "abc `&lt;def`")
-
-		);
-	}
+        ];
+    }
 }

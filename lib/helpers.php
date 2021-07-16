@@ -11,83 +11,61 @@
 
 namespace ICanBoogie;
 
+use Exception;
+
+use function mb_strtolower;
+use function random_bytes;
+
 /**
  * Escape HTML special characters.
  *
  * HTML special characters are escaped using the {@link htmlspecialchars()} function with the
  * {@link ENT_COMPAT} flag.
- *
- * @param string $str The string to escape.
- * @param string $charset The charset of the string to escape. Defaults to
- * {@link ICanBoogie\CHARSET} (utf-8).
- *
- * @return string
  */
-function escape($str, $charset=CHARSET)
+function escape(string $str, string $charset = CHARSET): string
 {
-	return htmlspecialchars($str, ENT_COMPAT, $charset);
+    return htmlspecialchars($str, ENT_COMPAT, $charset);
 }
 
 /**
  * Escape all applicable characters to HTML entities.
  *
  * Applicable characters are escaped using the {@link htmlentities()} function with the {@link ENT_COMPAT} flag.
- *
- * @param string $str The string to escape.
- * @param string $charset The charset of the string to escape. Defaults to
- * {@link ICanBoogie\CHARSET} (utf-8).
- *
- * @return string
  */
-function escape_all($str, $charset=CHARSET)
+function escape_all(string $str, string $charset = CHARSET): string
 {
-	return htmlentities($str, ENT_COMPAT, $charset);
+    return htmlentities($str, ENT_COMPAT, $charset);
 }
 
-if (!function_exists(__NAMESPACE__ . '\downcase'))
-{
-	/**
-	 * Returns a lowercase string.
-	 *
-	 * @param string $str
-	 *
-	 * @return string
-	 */
-	function downcase($str)
-	{
-		return mb_strtolower($str);
-	}
+if (!function_exists(__NAMESPACE__ . '\downcase')) {
+    /**
+     * Returns a lowercase string.
+     */
+    function downcase(string $str): string
+    {
+        return mb_strtolower($str);
+    }
 }
 
-if (!function_exists(__NAMESPACE__ . '\upcase'))
-{
-	/**
-	 * Returns an uppercase string.
-	 *
-	 * @param string $str
-	 *
-	 * @return string
-	 */
-	function upcase($str)
-	{
-		return mb_strtoupper($str);
-	}
+if (!function_exists(__NAMESPACE__ . '\upcase')) {
+    /**
+     * Returns an uppercase string.
+     */
+    function upcase(string $str): string
+    {
+        return mb_strtoupper($str);
+    }
 }
 
-if (!function_exists(__NAMESPACE__ . '\capitalize'))
-{
-	/**
-	 * Returns a copy of str with the first character converted to uppercase and the
-	 * remainder to lowercase.
-	 *
-	 * @param string $str
-	 *
-	 * @return string
-	 */
-	function capitalize($str)
-	{
-		return upcase(mb_substr($str, 0, 1)) . downcase(mb_substr($str, 1));
-	}
+if (!function_exists(__NAMESPACE__ . '\capitalize')) {
+    /**
+     * Returns a copy of str with the first character converted to uppercase and the
+     * remainder to lowercase.
+     */
+    function capitalize(string $str): string
+    {
+        return upcase(mb_substr($str, 0, 1)) . downcase(mb_substr($str, 1));
+    }
 }
 
 /**
@@ -97,69 +75,51 @@ if (!function_exists(__NAMESPACE__ . '\capitalize'))
  * @param int $length The desired length of the string.
  * @param float $position Position at which characters can be removed.
  * @param bool $shortened `true` if the string was shortened, `false` otherwise.
- *
- * @return string
  */
-function shorten($str, $length=32, $position=.75, &$shortened=null)
+function shorten(string $str, int $length = 32, float $position = .75, bool &$shortened = null): string
 {
-	$l = mb_strlen($str);
+    $l = mb_strlen($str);
 
-	if ($l <= $length)
-	{
-		return $str;
-	}
+    if ($l <= $length) {
+        return $str;
+    }
 
-	$length--;
-	$position = (int) ($position * $length);
+    $length--;
+    $position = (int) ($position * $length);
 
-	if ($position == 0)
-	{
-		$str = '…' . mb_substr($str, $l - $length);
-	}
-	else if ($position == $length)
-	{
-		$str = mb_substr($str, 0, $length) . '…';
-	}
-	else
-	{
-		$str = mb_substr($str, 0, $position) . '…' . mb_substr($str, $l - ($length - $position));
-	}
+    if ($position == 0) {
+        $str = '…' . mb_substr($str, $l - $length);
+    } else {
+        if ($position == $length) {
+            $str = mb_substr($str, 0, $length) . '…';
+        } else {
+            $str = mb_substr($str, 0, $position) . '…' . mb_substr($str, $l - ($length - $position));
+        }
+    }
 
-	$shortened = true;
+    $shortened = true;
 
-	return $str;
+    return $str;
 }
 
 /**
  * Removes the accents of a string.
- *
- * @param string $str
- * @param string $charset Defaults to {@link ICanBoogie\CHARSET}.
- *
- * @return string
  */
-function remove_accents($str, $charset=CHARSET)
+function remove_accents(string $str, string $charset = CHARSET): string
 {
-	$str = htmlentities($str, ENT_NOQUOTES, $charset);
+    $str = htmlentities($str, ENT_NOQUOTES, $charset);
+    $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+    $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // ligatures e.g. '&oelig;'
 
-	$str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
-	$str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // ligatures e.g. '&oelig;'
-	$str = preg_replace('#&[^;]+;#', '', $str); // remove other escaped characters
-
-	return $str;
+    return preg_replace('#&[^;]+;#', '', $str); // remove other escaped characters
 }
 
 /**
  * Binary-safe case-sensitive accents-insensitive string comparison.
  *
  * Accents are removed using the {@link remove_accents()} function.
- *
- * @param string $a
- * @param string $b
- *
- * @return bool
  */
-function unaccent_compare($a, $b)
+function unaccent_compare(string $a, string $b): bool
 {
     return strcmp(remove_accents($a), remove_accents($b));
 }
@@ -168,13 +128,8 @@ function unaccent_compare($a, $b)
  * Binary-safe case-insensitive accents-insensitive string comparison.
  *
  * Accents are removed using the {@link remove_accents()} function.
- *
- * @param string $a
- * @param string $b
- *
- * @return bool
  */
-function unaccent_compare_ci($a, $b)
+function unaccent_compare_ci(string $a, string $b): bool
 {
     return strcasecmp(remove_accents($a), remove_accents($b));
 }
@@ -187,28 +142,24 @@ function unaccent_compare_ci($a, $b)
  *
  * @param string $str The string to normalize.
  * @param string $separator The separator characters replaces characters the don't match [a-z0-9].
- * @param string $charset The charset of the string to normalize.
- *
- * @return string
  */
-function normalize($str, $separator='-', $charset=CHARSET)
+function normalize(string $str, string $separator = '-', string $charset = CHARSET): string
 {
-	static $cache;
+    static $cache;
 
-	$cache_key = $charset . '|' . $separator . '|' . $str;
+    $cache_key = $charset . '|' . $separator . '|' . $str;
 
-	if (isset($cache[$cache_key]))
-	{
-		return $cache[$cache_key];
-	}
+    if (isset($cache[$cache_key])) {
+        return $cache[$cache_key];
+    }
 
-	$str = str_replace('\'', '', $str);
-	$str = remove_accents($str, $charset);
-	$str = strtolower($str);
-	$str = preg_replace('#[^a-z0-9]+#', $separator, $str);
-	$str = trim($str, $separator);
+    $str = str_replace('\'', '', $str);
+    $str = remove_accents($str, $charset);
+    $str = strtolower($str);
+    $str = preg_replace('#[^a-z0-9]+#', $separator, $str);
+    $str = trim($str, $separator);
 
-	return $cache[$cache_key] = $str;
+    return $cache[$cache_key] = $str;
 }
 
 /**
@@ -218,25 +169,20 @@ function normalize($str, $separator='-', $charset=CHARSET)
  * uses print_r() output wrapped in a PRE element.
  *
  * @param mixed $value
- *
- * @return string
  */
-function dump($value)
+function dump($value): string
 {
-	if (function_exists('xdebug_var_dump'))
-	{
-		ob_start();
+    if (function_exists('xdebug_var_dump')) {
+        ob_start();
 
-		xdebug_var_dump($value);
+        xdebug_var_dump($value);
 
-		$value = ob_get_clean();
-	}
-	else
-	{
-		$value = '<pre>' . escape(print_r($value, true)) . '</pre>';
-	}
+        $value = ob_get_clean();
+    } else {
+        $value = '<pre>' . escape(print_r($value, true)) . '</pre>';
+    }
 
-	return $value;
+    return $value;
 }
 
 /**
@@ -253,90 +199,76 @@ function dump($value)
  *
  * Numeric indexes can also be used e.g "\\2" or "{2}" are replaced by the value of the index
  * "2".
- *
- * @return string
  */
-function format($str, array $args=array())
+function format(string $str, array $args = []): string
 {
-	static $quotation_start;
-	static $quotation_end;
+    static $quotation_start;
+    static $quotation_end;
 
-	if ($quotation_start === null)
-	{
-		if (PHP_SAPI == 'cli')
-		{
-			$quotation_start = '`';
-			$quotation_end = '`';
-		}
-		else
-		{
-			$quotation_start = '<q>';
-			$quotation_end = '</q>';
-		}
-	}
+    if ($quotation_start === null) {
+        if (PHP_SAPI == 'cli') {
+            $quotation_start = '`';
+            $quotation_end = '`';
+        } else {
+            $quotation_start = '<q>';
+            $quotation_end = '</q>';
+        }
+    }
 
-	if (!$args)
-	{
-		return $str;
-	}
+    if (!$args) {
+        return $str;
+    }
 
-	$holders = array();
-	$i = 0;
+    $holders = [];
+    $i = 0;
 
-	foreach ($args as $key => $value)
-	{
-		if (is_object($value) && method_exists($value, '__toString'))
-		{
-			$value = (string) $value;
-		}
+    foreach ($args as $key => $value) {
+        if (is_object($value) && method_exists($value, '__toString')) {
+            $value = (string) $value;
+        }
 
-		if (is_array($value) || is_object($value))
-		{
-			$value = dump($value);
-		}
-		else if (is_bool($value))
-		{
-			$value = $value ? '`true`' : '`false`';
-		}
-		else if (is_null($value))
-		{
-			$value = '`null`';
-		}
+        if (is_array($value) || is_object($value)) {
+            $value = dump($value);
+        } else {
+            if (is_bool($value)) {
+                $value = $value ? '`true`' : '`false`';
+            } elseif (is_null($value)) {
+                $value = '`null`';
+            }
+        }
 
-		if (is_string($key))
-		{
-			switch ($key[0])
-			{
-				case ':':
-					break;
+        if (is_string($key)) {
+            switch ($key[0]) {
+                case ':':
+                    break;
 
-				case '!':
-					$value = escape($value);
-					break;
+                case '!':
+                    $value = escape($value);
+                    break;
 
-				case '%':
-					$value = $quotation_start . escape($value) . $quotation_end;
-					break;
+                case '%':
+                    $value = $quotation_start . escape($value) . $quotation_end;
+                    break;
 
-				default:
-					$escaped_value = escape($value);
+                default:
+                    $escaped_value = escape($value);
 
-					$holders['{' . $key . '}'] = $escaped_value;
-					$holders['!' . $key] = $escaped_value;
-					$holders['%' . $key] = $quotation_start . $escaped_value . $quotation_end;
+                    $holders['{' . $key . '}'] = $escaped_value;
+                    $holders['!' . $key] = $escaped_value;
+                    $holders['%' . $key] = $quotation_start . $escaped_value . $quotation_end;
 
-					$key = ':' . $key;
-			}
-		}
+                    $key = ':' . $key;
+            }
+        }
 
-		$holders[$key] = $value;
-		$holders['\\' . $i] = $value;
-		$holders['{' . $i . '}'] = $value;
+        $holders[$key] = $value;
+        $holders['\\' . $i] = $value;
+        $holders['{' . $i . '}'] = $value;
 
-		$i++;
-	}
+        $i++;
+    }
 
-	return strtr($str, $holders);
+    return strtr($str, $holders);
 }
 
 /**
@@ -347,47 +279,34 @@ function format($str, array $args=array())
  * The array is always sorted in ascending order but one can use the array_reverse() function to
  * reverse the array. Also keys are preserved, even numeric ones, use the array_values() function
  * to create an array with an ascending index.
- *
- * @param array &$array
- * @param callable $picker
  */
-function stable_sort(&$array, $picker=null)
+function stable_sort(array &$array, callable $picker = null)
 {
-	static $transform, $restore;
+    static $transform, $restore;
 
-	$i = 0;
+    $i = 0;
 
-	if (!$transform)
-	{
-		$transform = function(&$v, $k) use (&$i)
-		{
-			$v = array($v, ++$i, $k, $v);
-		};
+    if (!$transform) {
+        $transform = function (&$v, $k) use (&$i) {
+            $v = [ $v, ++$i, $k, $v ];
+        };
 
-		$restore = function(&$v, $k)
-		{
-			$v = $v[3];
-		};
-	}
+        $restore = function (&$v) {
+            $v = $v[3];
+        };
+    }
 
-	if ($picker)
-	{
-		array_walk
-		(
-			$array, function(&$v, $k) use (&$i, $picker)
-			{
-				$v = array($picker($v, $k), ++$i, $k, $v);
-			}
-		);
-	}
-	else
-	{
-		array_walk($array, $transform);
-	}
+    if ($picker) {
+        array_walk($array, function (&$v, $k) use (&$i, $picker) {
+            $v = [ $picker($v, $k), ++$i, $k, $v ];
+        });
+    } else {
+        array_walk($array, $transform);
+    }
 
-	asort($array);
+    asort($array);
 
-	array_walk($array, $restore);
+    array_walk($array, $restore);
 }
 
 /**
@@ -402,88 +321,71 @@ function stable_sort(&$array, $picker=null)
  *
  * @return array A sorted copy of the array.
  */
-function sort_by_weight(array $array, $weight_picker)
+function sort_by_weight(array $array, callable $weight_picker): array
 {
-	if (!$array)
-	{
-		return $array;
-	}
+    if (!$array) {
+        return $array;
+    }
 
-	$order = array();
+    $order = [];
 
-	foreach ($array as $k => $v)
-	{
-		$order[$k] = $weight_picker($v, $k);
-	}
+    foreach ($array as $k => $v) {
+        $order[$k] = $weight_picker($v, $k);
+    }
 
-	$n = count($order);
+    $n = count($order);
 
-	$numeric_order = array_filter($order, function ($weight) {
-		return is_scalar($weight) && is_numeric($weight);
-	});
+    $numeric_order = array_filter($order, function ($weight) {
+        return is_scalar($weight) && is_numeric($weight);
+    });
 
-	if ($numeric_order)
-	{
-		$top = min($numeric_order) - $n;
-		$bottom = max($numeric_order) + $n;
-	}
-	else
-	{
-		$top = -$n;
-		$bottom = $n;
-	}
+    if ($numeric_order) {
+        $top = min($numeric_order) - $n;
+        $bottom = max($numeric_order) + $n;
+    } else {
+        $top = -$n;
+        $bottom = $n;
+    }
 
-	foreach ($order as &$weight)
-	{
-		if ($weight === 'top')
-		{
-			$weight = --$top;
-		}
-		else if ($weight === 'bottom')
-		{
-			$weight = ++$bottom;
-		}
-	}
+    foreach ($order as &$weight) {
+        if ($weight === 'top') {
+            $weight = --$top;
+        } else {
+            if ($weight === 'bottom') {
+                $weight = ++$bottom;
+            }
+        }
+    }
 
-	foreach ($order as $k => &$weight)
-	{
-		if (strpos($weight, 'before:') === 0)
-		{
-			$target = substr($weight, 7);
+    foreach ($order as $k => &$weight) {
+        if (strpos($weight, 'before:') === 0) {
+            $target = substr($weight, 7);
 
-			if (isset($order[$target]))
-			{
-				$order = array_insert($order, $target, $order[$target], $k);
-			}
-			else
-			{
-				$weight = 0;
-			}
-		}
-		else if (strpos($weight, 'after:') === 0)
-		{
-			$target = substr($weight, 6);
+            if (isset($order[$target])) {
+                $order = array_insert($order, $target, $order[$target], $k);
+            } else {
+                $weight = 0;
+            }
+        } else {
+            if (strpos($weight, 'after:') === 0) {
+                $target = substr($weight, 6);
 
-			if (isset($order[$target]))
-			{
-				$order = array_insert($order, $target, $order[$target], $k, true);
-			}
-			else
-			{
-				$weight = 0;
-			}
-		}
-	}
+                if (isset($order[$target])) {
+                    $order = array_insert($order, $target, $order[$target], $k, true);
+                } else {
+                    $weight = 0;
+                }
+            }
+        }
+    }
 
-	stable_sort($order);
+    stable_sort($order);
 
-	array_walk($order, function(&$v, $k) use($array) {
+    array_walk($order, function (&$v, $k) use ($array) {
+        $v = $array[$k];
+    });
 
-		$v = $array[$k];
-
-	});
-
-	return $order;
+    return $order;
 }
 
 /**
@@ -491,216 +393,175 @@ function sort_by_weight(array $array, $weight_picker)
  *
  * Numeric keys are not preserved.
  *
- * @param $array
- * @param $relative
- * @param $value
- * @param $key
- * @param $after
- *
- * @return array
+ * @param mixed $relative
+ * @param mixed $value
+ * @param string|int $key
  */
-function array_insert($array, $relative, $value, $key=null, $after=false)
+function array_insert(array $array, $relative, $value, $key = null, bool $after = false): array
 {
-	if ($key)
-	{
-		unset($array[$key]);
-	}
+    if ($key) {
+        unset($array[$key]);
+    }
 
-	$keys = array_keys($array);
-	$pos = array_search($relative, $keys, true);
+    $keys = array_keys($array);
+    $pos = array_search($relative, $keys, true);
 
-	if ($after)
-	{
-		$pos++;
-	}
+    if ($after) {
+        $pos++;
+    }
 
-	$spliced = array_splice($array, $pos);
+    $spliced = array_splice($array, $pos);
 
-	if ($key !== null)
-	{
-		$array = array_merge($array, array($key => $value));
-	}
-	else
-	{
-		array_unshift($spliced, $value);
-	}
+    if ($key !== null) {
+        $array = array_merge($array, [ $key => $value ]);
+    } else {
+        array_unshift($spliced, $value);
+    }
 
-	return array_merge($array, $spliced);
+    return array_merge($array, $spliced);
 }
 
 /**
  * Flattens an array.
  *
- * @param array $array
  * @param string|array $separator
- * @param int $depth
- *
- * @return array
  */
-function array_flatten($array, $separator='.', $depth=0)
+function array_flatten(array $array, $separator = '.', int $depth = 0): array
 {
-	$rc = array();
+    $rc = [];
 
-	if (is_array($separator))
-	{
-		foreach ($array as $key => $value)
-		{
-			if (!is_array($value))
-			{
-				$rc[$key . ($depth ? $separator[1] : '')] = $value;
+    if (is_array($separator)) {
+        foreach ($array as $key => $value) {
+            if (!is_array($value)) {
+                $rc[$key . ($depth ? $separator[1] : '')] = $value;
 
-				continue;
-			}
+                continue;
+            }
 
-			$values = array_flatten($value, $separator, $depth + 1);
+            $values = array_flatten($value, $separator, $depth + 1);
 
-			foreach ($values as $vkey => $value)
-			{
-				$rc[$key . ($depth ? $separator[1] : '') . $separator[0] . $vkey] = $value;
-			}
-		}
-	}
-	else
-	{
-		foreach ($array as $key => $value)
-		{
-			if (!is_array($value))
-			{
-				$rc[$key] = $value;
+            foreach ($values as $sk => $sv) {
+                $rc[$key . ($depth ? $separator[1] : '') . $separator[0] . $sk] = $sv;
+            }
+        }
+    } else {
+        foreach ($array as $key => $value) {
+            if (!is_array($value)) {
+                $rc[$key] = $value;
 
-				continue;
-			}
+                continue;
+            }
 
-			$values = array_flatten($value, $separator);
+            $values = array_flatten($value, $separator);
 
-			foreach ($values as $vkey => $value)
-			{
-				$rc[$key . $separator . $vkey] = $value;
-			}
-		}
-	}
+            foreach ($values as $sk => $sv) {
+                $rc[$key . $separator . $sk] = $sv;
+            }
+        }
+    }
 
-	return $rc;
+    return $rc;
 }
 
 /**
  * Merge arrays recursively with a different algorithm than PHP.
  *
- * @param array $array1
- * @param array $array2 ...
- *
- * @return array
+ * @param array|...array $array2
  */
-function array_merge_recursive(array $array1, array $array2=array())
+function array_merge_recursive(array $array1, array $array2 = []): array
 {
-	$arrays = func_get_args();
+    $arrays = func_get_args();
 
-	$merge = array_shift($arrays);
+    $merge = array_shift($arrays);
 
-	foreach ($arrays as $array)
-	{
-		foreach ($array as $key => $val)
-		{
-			#
-			# if the value is an array and the key already exists
-			# we have to make a recursion
-			#
+    foreach ($arrays as $array) {
+        foreach ($array as $key => $val) {
+            #
+            # if the value is an array and the key already exists
+            # we have to make a recursion
+            #
 
-			if (is_array($val) && array_key_exists($key, $merge))
-			{
-				$val = array_merge_recursive((array) $merge[$key], $val);
-			}
+            if (is_array($val) && array_key_exists($key, $merge)) {
+                $val = array_merge_recursive((array) $merge[$key], $val);
+            }
 
-			#
-			# if the key is numeric, the value is pushed. Otherwise, it replaces
-			# the value of the _merge_ array.
-			#
+            #
+            # if the key is numeric, the value is pushed. Otherwise, it replaces
+            # the value of the _merge_ array.
+            #
 
-			if (is_numeric($key))
-			{
-				$merge[] = $val;
-			}
-			else
-			{
-				$merge[$key] = $val;
-			}
-		}
-	}
+            if (is_numeric($key)) {
+                $merge[] = $val;
+            } else {
+                $merge[$key] = $val;
+            }
+        }
+    }
 
-	return $merge;
+    return $merge;
 }
 
-function exact_array_merge_recursive(array $array1, array $array2=array())
+function exact_array_merge_recursive(array $array1, array $array2 = []): array
 {
-	$arrays = func_get_args();
+    $arrays = func_get_args();
 
-	$merge = array_shift($arrays);
+    $merge = array_shift($arrays);
 
-	foreach ($arrays as $array)
-	{
-		foreach ($array as $key => $val)
-		{
-			#
-			# if the value is an array and the key already exists
-			# we have to make a recursion
-			#
+    foreach ($arrays as $array) {
+        foreach ($array as $key => $val) {
+            #
+            # if the value is an array and the key already exists
+            # we have to make a recursion
+            #
 
-			if (is_array($val) && array_key_exists($key, $merge))
-			{
-				$val = exact_array_merge_recursive((array) $merge[$key], $val);
-			}
+            if (is_array($val) && array_key_exists($key, $merge)) {
+                $val = exact_array_merge_recursive((array) $merge[$key], $val);
+            }
 
-			$merge[$key] = $val;
-		}
-	}
+            $merge[$key] = $val;
+        }
+    }
 
-	return $merge;
+    return $merge;
 }
 
 /**
  * Normalizes the path of a URL.
  *
- * @param string $path
- *
- * @return string
- *
  * @see http://en.wikipedia.org/wiki/URL_normalization
  */
-function normalize_url_path($path)
+function normalize_url_path(string $path): string
 {
-	static $cache = array();
+    static $cache = [];
 
-	$path = (string) $path;
+    if (isset($cache[$path])) {
+        return $cache[$path];
+    }
 
-	if (isset($cache[$path]))
-	{
-		return $cache[$path];
-	}
+    $normalized = preg_replace('#\/index\.(html|php)$#', '/', $path);
+    $normalized = rtrim($normalized, '/');
 
-	$normalized = preg_replace('#\/index\.(html|php)$#', '/', $path);
-	$normalized = rtrim($normalized, '/');
+    if (!preg_match('#\.[a-z]+$#', $normalized)) {
+        $normalized .= '/';
+    }
 
-	if (!preg_match('#\.[a-z]+$#', $normalized))
-	{
-		$normalized .= '/';
-	}
+    $cache[$path] = $normalized;
 
-	$cache[$path] = $normalized;
-
-	return $normalized;
+    return $normalized;
 }
 
 /**
  * Generates a v4 UUID.
  *
- * @return string
- *
  * @origin http://stackoverflow.com/questions/2040240/php-function-to-generate-v4-uuid#answer-15875555
+ *
+ * @throws Exception when random bytes cannot be generated.
  */
-function generate_v4_uuid()
+function generate_v4_uuid(): string
 {
-	$data = openssl_random_pseudo_bytes(16);
-	$data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0010
-	$data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
-	return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    $data = random_bytes(16);
+    $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0010
+    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+
+    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 }

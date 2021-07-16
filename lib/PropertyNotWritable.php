@@ -11,42 +11,38 @@
 
 namespace ICanBoogie;
 
+use LogicException;
+use Throwable;
+
 /**
  * Exception thrown when a property is not writable.
  *
  * For example, this could be triggered when a private property is written from a public scope.
  */
-class PropertyNotWritable extends PropertyError
+class PropertyNotWritable extends LogicException implements PropertyError
 {
-	public function __construct($message, $code=500, \Exception $previous=null)
-	{
-		if (is_array($message))
-		{
-			list($property, $container) = $message + array(1 => null);
+    /**
+     * @param string|array $message
+     *
+     * @phpstan-param string|array{0: string, 1: object} $message
+     */
+    public function __construct($message, Throwable $previous = null)
+    {
+        if (is_array($message)) {
+            [ $property, $container ] = $message + [ 1 => null ];
 
-			if (is_object($container))
-			{
-				$message = format
-				(
-					'The property %property for object of class %class is not writable.', array
-					(
-						'%property' => $property,
-						'%class' => get_class($container)
-					)
-				);
-			}
-			else
-			{
-				$message = format
-				(
-					'The property %property is not writable.', array
-					(
-						'%property' => $property
-					)
-				);
-			}
-		}
+            if (is_object($container)) {
+                $message = format('The property %property for object of class %class is not writable.', [
+                    '%property' => $property,
+                    '%class' => get_class($container)
+                ]);
+            } else {
+                $message = format('The property %property is not writable.', [
+                    '%property' => $property
+                ]);
+            }
+        }
 
-		parent::__construct($message, $code, $previous);
-	}
+        parent::__construct($message, 0, $previous);
+    }
 }

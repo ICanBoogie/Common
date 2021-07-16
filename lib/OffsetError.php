@@ -11,13 +11,11 @@
 
 namespace ICanBoogie;
 
-/**
- * Exception thrown when there is something wrong with an array offset.
- *
- * This is the base class for offset exceptions, one should rather use the
- * {@link OffsetNotReadable} or {@link OffsetNotWritable} exceptions.
- */
-class OffsetError extends \RuntimeException
-{
+use Throwable;
 
+/**
+ * An interface for exceptions related to offsets.
+ */
+interface OffsetError extends Throwable
+{
 }

@@ -16,34 +16,26 @@ namespace ICanBoogie;
  */
 trait ToArrayRecursiveTrait
 {
-	/**
-	 * Transforms an instance into an array.
-	 *
-	 * @return array
-	 */
-	abstract function to_array();
+    /**
+     * Transforms an instance into an array.
+     */
+    abstract public function to_array(): array;
 
-	/**
-	 * Transforms an instance into an array recursively.
-	 *
-	 * @return array
-	 */
-	public function to_array_recursive()
-	{
-		$array = $this->to_array();
+    /**
+     * Transforms an instance into an array recursively.
+     */
+    public function to_array_recursive(): array
+    {
+        $array = $this->to_array();
 
-		foreach ($array as $key => &$value)
-		{
-			if ($value instanceof ToArrayRecursive)
-			{
-				$value = $value->to_array_recursive();
-			}
-			else if ($value instanceof ToArray)
-			{
-				$value = $value->to_array();
-			}
-		}
+        foreach ($array as &$value) {
+            if ($value instanceof ToArrayRecursive) {
+                $value = $value->to_array_recursive();
+            } elseif ($value instanceof ToArray) {
+                $value = $value->to_array();
+            }
+        }
 
-		return $array;
-	}
+        return $array;
+    }
 }

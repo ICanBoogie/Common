@@ -7,13 +7,13 @@ on:
 jobs:
   phpunit:
     name: phpunit
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         php-version:
-        - "5.3"
-        - "5.6"
-        - "7.0"
+        - "7.1"
+        - "7.4"
+        - "8.0"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -40,7 +40,7 @@ jobs:
       run: make test-coveralls
 
     - name: Upload code coverage
-      if: ${{ matrix.php-version == '5.6' }}
+      if: ${{ matrix.php-version == '7.1' }}
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
