@@ -31,16 +31,10 @@ class PropertyNotReadable extends LogicException implements PropertyError
         if (is_array($message)) {
             [ $property, $container ] = $message + [ 1 => null ];
 
-            if (is_object($container)) {
-                $message = format('The property %property for object of class %class is not readable.', [
-                    '%property' => $property,
-                    '%class' => get_class($container)
-                ]);
-            } else {
-                $message = format('The property %property is not readable.', [
-                    '%property' => $property
-                ]);
-            }
+            $message = format('The property %property for object of class %class is not readable.', [
+                '%property' => $property,
+                '%class' => get_class($container)
+            ]);
         }
 
         parent::__construct($message, 0, $previous);

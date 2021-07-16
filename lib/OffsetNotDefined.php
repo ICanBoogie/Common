@@ -36,17 +36,15 @@ class OffsetNotDefined extends LogicException implements OffsetError
                     '%offset' => $offset,
                     '%class' => get_class($container)
                 ]);
+            } elseif (is_array($container)) {
+                $message = format('Undefined offset %offset for the array: !array', [
+                    '%offset' => $offset,
+                    '!array' => $container
+                ]);
             } else {
-                if (is_array($container)) {
-                    $message = format('Undefined offset %offset for the array: !array', [
-                        '%offset' => $offset,
-                        '!array' => $container
-                    ]);
-                } else {
-                    $message = format('Undefined offset %offset.', [
-                        '%offset' => $offset
-                    ]);
-                }
+                $message = format('Undefined offset %offset.', [
+                    '%offset' => $offset
+                ]);
             }
         }
 

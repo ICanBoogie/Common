@@ -21,9 +21,12 @@ use Throwable;
  */
 class PropertyIsReserved extends LogicException implements PropertyError
 {
+    /**
+     * @var string
+     */
     private $property;
 
-    public function __construct($property, Throwable $previous = null)
+    public function __construct(string $property, Throwable $previous = null)
     {
         $this->property = $property;
 
@@ -34,7 +37,7 @@ class PropertyIsReserved extends LogicException implements PropertyError
         );
     }
 
-    public function __get($property)
+    public function __get(string $property): string
     {
         if ($property === 'property') {
             return $this->property;

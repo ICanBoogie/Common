@@ -34,17 +34,15 @@ class OffsetNotWritable extends LogicException implements OffsetError
                     'offset' => $offset,
                     'class' => get_class($container)
                 ]);
+            } elseif (is_array($container)) {
+                $message = format('The offset %offset is not writable for the array: !array', [
+                    'offset' => $offset,
+                    'array' => $container
+                ]);
             } else {
-                if (is_array($container)) {
-                    $message = format('The offset %offset is not writable for the array: !array', [
-                        'offset' => $offset,
-                        'array' => $container
-                    ]);
-                } else {
-                    $message = format('The offset %offset is not writable.', [
-                        'offset' => $offset
-                    ]);
-                }
+                $message = format('The offset %offset is not writable.', [
+                    'offset' => $offset
+                ]);
             }
         }
 

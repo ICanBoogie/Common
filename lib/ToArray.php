@@ -15,6 +15,8 @@ interface ToArray
 {
     /**
      * Converts the object into an array.
+     *
+     * @return array<int|string, mixed>
      */
     public function to_array(): array;
 }

@@ -28,7 +28,7 @@ class FormattedString
     /**
      * An array of replacements for the placeholders.
      *
-     * @var array
+     * @var array<int|string, mixed>
      */
     private $args;
 

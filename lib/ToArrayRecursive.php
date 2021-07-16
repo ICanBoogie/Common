@@ -15,6 +15,8 @@ interface ToArrayRecursive extends ToArray
 {
     /**
      * Converts this object into an array, recursively.
+     *
+     * @return array<int|string, mixed>
      */
     public function to_array_recursive(): array;
 }

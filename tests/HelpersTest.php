@@ -20,6 +20,7 @@ use function ICanBoogie\sort_by_weight;
 
 final class HelpersTest extends TestCase
 {
+    // @phpstan-ignore-next-line
     public function arrayProvider(): array
     {
         return [
@@ -66,6 +67,8 @@ final class HelpersTest extends TestCase
 
     /**
      * @dataProvider arrayProvider()
+     *
+     * @phpstan-ignore-next-line
      */
     public function testArrayFlatten(array $data): void
     {
@@ -93,6 +96,8 @@ final class HelpersTest extends TestCase
 
     /**
      * @dataProvider arrayProvider()
+     *
+     * @phpstan-ignore-next-line
      */
     public function testArrayFlattenDouble(array $data)
     {
@@ -120,6 +125,8 @@ final class HelpersTest extends TestCase
 
     /**
      * @dataProvider provide_test_sort_by_weight
+     *
+     * @phpstan-ignore-next-line
      */
     public function test_sort_by_weight(array $array, array $expected): void
     {
@@ -128,6 +135,7 @@ final class HelpersTest extends TestCase
         }));
     }
 
+    // @phpstan-ignore-next-line
     public function provide_test_sort_by_weight(): array
     {
         return [
@@ -201,6 +209,7 @@ final class HelpersTest extends TestCase
         $this->assertEquals($expected, remove_accents($str));
     }
 
+    // @phpstan-ignore-next-line
     public function provide_test_remove_accents(): array
     {
         return [
@@ -227,12 +236,15 @@ final class HelpersTest extends TestCase
 
     /**
      * @dataProvider provide_test_format
+     *
+     * @phpstan-ignore-next-line
      */
     public function test_format(string $format, array $args, string $expected): void
     {
         $this->assertEquals($expected, format($format, $args));
     }
 
+    // @phpstan-ignore-next-line
     public function provide_test_format(): array
     {
         return [

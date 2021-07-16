@@ -12,6 +12,7 @@
 namespace ICanBoogie;
 
 use Exception;
+use LogicException;
 
 use function mb_strtolower;
 use function random_bytes;
@@ -109,8 +110,10 @@ function remove_accents(string $str, string $charset = CHARSET): string
 {
     $str = htmlentities($str, ENT_NOQUOTES, $charset);
     $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+    // @phpstan-ignore-next-line
     $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // ligatures e.g. '&oelig;'
 
+    // @phpstan-ignore-next-line
     return preg_replace('#&[^;]+;#', '', $str); // remove other escaped characters
 }
 
@@ -119,7 +122,7 @@ function remove_accents(string $str, string $charset = CHARSET): string
  *
  * Accents are removed using the {@link remove_accents()} function.
  */
-function unaccent_compare(string $a, string $b): bool
+function unaccent_compare(string $a, string $b): int
 {
     return strcmp(remove_accents($a), remove_accents($b));
 }
@@ -129,7 +132,7 @@ function unaccent_compare(string $a, string $b): bool
  *
  * Accents are removed using the {@link remove_accents()} function.
  */
-function unaccent_compare_ci(string $a, string $b): bool
+function unaccent_compare_ci(string $a, string $b): int
 {
     return strcasecmp(remove_accents($a), remove_accents($b));
 }
@@ -157,6 +160,7 @@ function normalize(string $str, string $separator = '-', string $charset = CHARS
     $str = remove_accents($str, $charset);
     $str = strtolower($str);
     $str = preg_replace('#[^a-z0-9]+#', $separator, $str);
+    // @phpstan-ignore-next-line
     $str = trim($str, $separator);
 
     return $cache[$cache_key] = $str;
@@ -177,7 +181,7 @@ function dump($value): string
 
         xdebug_var_dump($value);
 
-        $value = ob_get_clean();
+        $value = (string) ob_get_clean();
     } else {
         $value = '<pre>' . escape(print_r($value, true)) . '</pre>';
     }
@@ -189,7 +193,7 @@ function dump($value): string
  * Formats the given string by replacing placeholders with the values provided.
  *
  * @param string $str The string to format.
- * @param array $args An array of replacements for the placeholders. Occurrences in $str of any
+ * @param array<int|string, mixed> $args An array of replacements for the placeholders. Occurrences in $str of any
  * key in $args are replaced with the corresponding sanitized value. The sanitization function
  * depends on the first character of the key:
  *
@@ -279,8 +283,10 @@ function format(string $str, array $args = []): string
  * The array is always sorted in ascending order but one can use the array_reverse() function to
  * reverse the array. Also keys are preserved, even numeric ones, use the array_values() function
  * to create an array with an ascending index.
+ *
+ * @param array<int|string, mixed> $array
  */
-function stable_sort(array &$array, callable $picker = null)
+function stable_sort(array &$array, callable $picker = null): void
 {
     static $transform, $restore;
 
@@ -315,11 +321,11 @@ function stable_sort(array &$array, callable $picker = null)
  * The weight of the items is defined as an integer; a position relative to another member of the
  * array `before:<key>` or `after:<key>`; the special words `top` and `bottom`.
  *
- * @param array $array
+ * @param array<int|string, mixed> $array
  * @param callable $weight_picker The callback function used to pick the weight of the item. The
  * function is called with the following arguments: `$value`, `$key`.
  *
- * @return array A sorted copy of the array.
+ * @return array<int|string, mixed> A sorted copy of the array.
  */
 function sort_by_weight(array $array, callable $weight_picker): array
 {
@@ -393,9 +399,12 @@ function sort_by_weight(array $array, callable $weight_picker): array
  *
  * Numeric keys are not preserved.
  *
+ * @param array<int|string, mixed> $array
  * @param mixed $relative
  * @param mixed $value
  * @param string|int $key
+ *
+ * @return array<int|string, mixed>
  */
 function array_insert(array $array, $relative, $value, $key = null, bool $after = false): array
 {
@@ -405,6 +414,10 @@ function array_insert(array $array, $relative, $value, $key = null, bool $after 
 
     $keys = array_keys($array);
     $pos = array_search($relative, $keys, true);
+
+    if ($pos === false) {
+        throw new LogicException("Relative not found.");
+    }
 
     if ($after) {
         $pos++;
@@ -424,7 +437,10 @@ function array_insert(array $array, $relative, $value, $key = null, bool $after 
 /**
  * Flattens an array.
  *
- * @param string|array $separator
+ * @param array<int|string, mixed> $array
+ * @param string|array{0: string, 1: string} $separator
+ *
+ * @return array<int|string, mixed>
  */
 function array_flatten(array $array, $separator = '.', int $depth = 0): array
 {
@@ -466,7 +482,10 @@ function array_flatten(array $array, $separator = '.', int $depth = 0): array
 /**
  * Merge arrays recursively with a different algorithm than PHP.
  *
- * @param array|...array $array2
+ * @param array<int|string, mixed> $array1
+ * @param array<int|string, mixed>|array<int|string, mixed>... $array2
+ *
+ * @return array<int|string, mixed>
  */
 function array_merge_recursive(array $array1, array $array2 = []): array
 {
@@ -501,6 +520,12 @@ function array_merge_recursive(array $array1, array $array2 = []): array
     return $merge;
 }
 
+/**
+ * @param array<int|string, mixed> $array1
+ * @param array<int|string, mixed>|array<int|string, mixed>... $array2
+ *
+ * @return array<int|string, mixed>
+ */
 function exact_array_merge_recursive(array $array1, array $array2 = []): array
 {
     $arrays = func_get_args();
@@ -538,7 +563,8 @@ function normalize_url_path(string $path): string
         return $cache[$path];
     }
 
-    $normalized = preg_replace('#\/index\.(html|php)$#', '/', $path);
+    $normalized = preg_replace('#/index\.(html|php)$#', '/', $path);
+    // @phpstan-ignore-next-line
     $normalized = rtrim($normalized, '/');
 
     if (!preg_match('#\.[a-z]+$#', $normalized)) {

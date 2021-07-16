@@ -31,16 +31,10 @@ class PropertyNotDefined extends LogicException implements PropertyError
         if (is_array($message)) {
             [ $property, $container ] = $message + [ 1 => null ];
 
-            if (is_object($container)) {
-                $message = format('Undefined property %property for object of class %class.', [
-                    '%property' => $property,
-                    '%class' => get_class($container)
-                ]);
-            } else {
-                $message = format('Undefined property %property.', [
-                    '%property' => $property
-                ]);
-            }
+            $message = format('Undefined property %property for object of class %class.', [
+                '%property' => $property,
+                '%class' => get_class($container)
+            ]);
         }
 
         parent::__construct($message, 0, $previous);

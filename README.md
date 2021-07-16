@@ -97,17 +97,8 @@ class A implements ToArrayRecursive
 The project is continuously tested by [GitHub actions](https://github.com/ICanBoogie/Common/actions).
 
 [![Tests](https://github.com/ICanBoogie/Common/workflows/test/badge.svg?branch=master)](https://github.com/ICanBoogie/master/actions?query=workflow%3Atest)
+[![Static Analysis](https://github.com/ICanBoogie/Common/workflows/static-analysis/badge.svg?branch=master)](https://github.com/ICanBoogie/Common/actions?query=workflow%3Astatic-analysis)
 [![Code Style](https://github.com/ICanBoogie/Common/workflows/code-style/badge.svg?branch=master)](https://github.com/ICanBoogie/Common/actions?query=workflow%3Acode-style)
-
-
-
-## Documentation
-
-The package is documented as part of the [ICanBoogie][] framework
-[documentation][]. You can generate the documentation for the package
-and its dependencies with the `make doc` command. The documentation is generated in the `docs`
-directory. [ApiGen](http://apigen.org/) is required. You can later clean the directory with
-the `make clean` command.
 
 
 

@@ -18,6 +18,7 @@ class SampleToArrayRecursive implements ToArrayRecursive
 {
     use ToArrayRecursiveTrait;
 
+    // @phpstan-ignore-next-line
     public function __construct(array $properties)
     {
         foreach ($properties as $property => $value) {
