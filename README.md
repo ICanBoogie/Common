@@ -102,6 +102,13 @@ The project is continuously tested by [GitHub actions](https://github.com/ICanBo
 
 
 
+## Code of Conduct
+
+This project adheres to a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project and its
+community, you are expected to uphold this code.
+
+
+
 ## Testing
 
 We provide a Docker container for local development. Run `make test-container` to create a new session. Inside the
