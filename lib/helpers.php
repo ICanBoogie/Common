@@ -15,6 +15,7 @@ use Exception;
 use LogicException;
 
 use function mb_strtolower;
+use function mb_substr;
 use function random_bytes;
 
 /**
@@ -38,6 +39,7 @@ function escape_all(string $str, string $charset = CHARSET): string
     return htmlentities($str, ENT_COMPAT, $charset);
 }
 
+// Avoid conflicts with ICanBoogie/Inflector
 if (!function_exists(__NAMESPACE__ . '\downcase')) {
     /**
      * Returns a lowercase string.
@@ -48,6 +50,7 @@ if (!function_exists(__NAMESPACE__ . '\downcase')) {
     }
 }
 
+// Avoid conflicts with ICanBoogie/Inflector
 if (!function_exists(__NAMESPACE__ . '\upcase')) {
     /**
      * Returns an uppercase string.
@@ -58,14 +61,23 @@ if (!function_exists(__NAMESPACE__ . '\upcase')) {
     }
 }
 
+// Avoid conflicts with ICanBoogie/Inflector
 if (!function_exists(__NAMESPACE__ . '\capitalize')) {
     /**
      * Returns a copy of str with the first character converted to uppercase and the
      * remainder to lowercase.
+     *
+     * @param bool $preserve_str_end Whether the string end should be preserved or downcased.
      */
-    function capitalize(string $str): string
+    function capitalize(string $str, bool $preserve_str_end = false): string
     {
-        return upcase(mb_substr($str, 0, 1)) . downcase(mb_substr($str, 1));
+        $end = mb_substr($str, 1);
+
+        if (!$preserve_str_end) {
+            $end = downcase($end);
+        }
+
+        return upcase(mb_substr($str, 0, 1)) . $end;
     }
 }
 
