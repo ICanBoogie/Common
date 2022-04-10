@@ -1,7 +1,16 @@
-FROM php:7.1-cli-buster
+FROM php:8.0-cli-buster
 
-RUN docker-php-ext-enable opcache && \
-    docker-php-source delete
+RUN apt-get update && \
+	apt-get install -y autoconf pkg-config && \
+	pecl channel-update pecl.php.net && \
+	pecl install xdebug && \
+	docker-php-ext-enable opcache xdebug
+
+RUN echo '\
+xdebug.client_host=host.docker.internal\n\
+xdebug.mode=develop\n\
+xdebug.start_with_request=yes\n\
+' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 RUN echo '\
 display_errors=On\n\
@@ -17,4 +26,7 @@ RUN apt-get update && \
 	mv composer.phar /usr/local/bin/composer && \
 	echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"\n' >> /root/.bashrc
 
+#
+# Package specifics stages
+#
 RUN composer global require squizlabs/php_codesniffer

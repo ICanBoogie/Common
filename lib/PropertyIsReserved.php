@@ -21,15 +21,8 @@ use Throwable;
  */
 class PropertyIsReserved extends LogicException implements PropertyError
 {
-    /**
-     * @var string
-     */
-    private $property;
-
-    public function __construct(string $property, Throwable $previous = null)
+    public function __construct(private string $property, Throwable $previous = null)
     {
-        $this->property = $property;
-
         parent::__construct(
             format('Property %property is reserved.', [ '%property' => $property ]),
             0,

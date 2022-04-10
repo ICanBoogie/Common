@@ -20,11 +20,9 @@ use Throwable;
 class OffsetNotWritable extends LogicException implements OffsetError
 {
     /**
-     * @param string|array $message
-     *
      * @phpstan-param string|array{0: string|int, 1: array|object} $message
      */
-    public function __construct($message, Throwable $previous = null)
+    public function __construct(string|array $message, Throwable $previous = null)
     {
         if (is_array($message)) {
             [ $offset, $container ] = $message + [ 1 => null ];

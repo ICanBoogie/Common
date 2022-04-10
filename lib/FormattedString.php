@@ -19,36 +19,15 @@ namespace ICanBoogie;
 class FormattedString
 {
     /**
-     * String format.
-     *
-     * @var string
-     */
-    private $format;
-
-    /**
-     * An array of replacements for the placeholders.
-     *
-     * @var array<int|string, mixed>
-     */
-    private $args;
-
-    /**
-     * Initializes the {@link $format} and {@link $args} properties.
-     *
      * @param string $format String format.
-     * @param mixed $args Format arguments.
+     * @param array<int|string, mixed> $args Format arguments.
      *
      * @see format()
      */
-    public function __construct(string $format, $args = null)
-    {
-        if (!is_array($args)) {
-            $args = func_get_args();
-            array_shift($args);
-        }
-
-        $this->format = $format;
-        $this->args = (array) $args;
+    public function __construct(
+        private string $format,
+        private array $args = []
+    ) {
     }
 
     /**

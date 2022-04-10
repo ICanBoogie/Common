@@ -14,9 +14,59 @@ namespace ICanBoogie;
 use Exception;
 use LogicException;
 
+use function array_filter;
+use function array_key_exists;
+use function array_keys;
+use function array_merge;
+use function array_search;
+use function array_shift;
+use function array_splice;
+use function array_unshift;
+use function array_walk;
+use function asort;
+use function bin2hex;
+use function chr;
+use function count;
+use function function_exists;
+use function htmlentities;
+use function htmlspecialchars;
+use function is_array;
+use function is_bool;
+use function is_null;
+use function is_numeric;
+use function is_object;
+use function is_scalar;
+use function is_string;
+use function max;
+use function mb_strlen;
 use function mb_strtolower;
+use function mb_strtoupper;
 use function mb_substr;
+use function method_exists;
+use function min;
+use function ob_get_clean;
+use function ob_start;
+use function ord;
+use function preg_match;
+use function preg_replace;
+use function print_r;
 use function random_bytes;
+use function reset;
+use function rtrim;
+use function str_replace;
+use function str_split;
+use function str_starts_with;
+use function strcasecmp;
+use function strcmp;
+use function strtolower;
+use function substr;
+use function trim;
+use function vsprintf;
+use function xdebug_var_dump;
+
+use const ENT_COMPAT;
+use const ENT_NOQUOTES;
+use const PHP_SAPI;
 
 /**
  * Escape HTML special characters.
@@ -24,9 +74,9 @@ use function random_bytes;
  * HTML special characters are escaped using the {@link htmlspecialchars()} function with the
  * {@link ENT_COMPAT} flag.
  */
-function escape(string $str, string $charset = CHARSET): string
+function escape(string $str, string $encoding = null): string
 {
-    return htmlspecialchars($str, ENT_COMPAT, $charset);
+    return htmlspecialchars($str, ENT_COMPAT, $encoding);
 }
 
 /**
@@ -34,9 +84,9 @@ function escape(string $str, string $charset = CHARSET): string
  *
  * Applicable characters are escaped using the {@link htmlentities()} function with the {@link ENT_COMPAT} flag.
  */
-function escape_all(string $str, string $charset = CHARSET): string
+function escape_all(string $str, string $encoding = null): string
 {
-    return htmlentities($str, ENT_COMPAT, $charset);
+    return htmlentities($str, ENT_COMPAT, $encoding);
 }
 
 // Avoid conflicts with ICanBoogie/Inflector
@@ -118,9 +168,9 @@ function shorten(string $str, int $length = 32, float $position = .75, bool &$sh
 /**
  * Removes the accents of a string.
  */
-function remove_accents(string $str, string $charset = CHARSET): string
+function remove_accents(string $str, string $encoding = null): string
 {
-    $str = htmlentities($str, ENT_NOQUOTES, $charset);
+    $str = htmlentities($str, ENT_NOQUOTES, $encoding);
     $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
     // @phpstan-ignore-next-line
     $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // ligatures e.g. '&oelig;'
@@ -158,21 +208,20 @@ function unaccent_compare_ci(string $a, string $b): int
  * @param string $str The string to normalize.
  * @param string $separator The separator characters replaces characters the don't match [a-z0-9].
  */
-function normalize(string $str, string $separator = '-', string $charset = CHARSET): string
+function normalize(string $str, string $separator = '-', string $encoding = null): string
 {
     static $cache;
 
-    $cache_key = $charset . '|' . $separator . '|' . $str;
+    $cache_key = $encoding . '|' . $separator . '|' . $str;
 
     if (isset($cache[$cache_key])) {
         return $cache[$cache_key];
     }
 
     $str = str_replace('\'', '', $str);
-    $str = remove_accents($str, $charset);
+    $str = remove_accents($str, $encoding);
     $str = strtolower($str);
-    $str = preg_replace('#[^a-z0-9]+#', $separator, $str);
-    // @phpstan-ignore-next-line
+    $str = preg_replace('#[^a-z0-9]+#', $separator, $str) ?? "";
     $str = trim($str, $separator);
 
     return $cache[$cache_key] = $str;
@@ -183,10 +232,8 @@ function normalize(string $str, string $separator = '-', string $charset = CHARS
  *
  * The function uses xdebug_var_dump() if [Xdebug](http://xdebug.org/) is installed, otherwise it
  * uses print_r() output wrapped in a PRE element.
- *
- * @param mixed $value
  */
-function dump($value): string
+function dump(mixed $value): string
 {
     if (function_exists('xdebug_var_dump')) {
         ob_start();
@@ -376,7 +423,7 @@ function sort_by_weight(array $array, callable $weight_picker): array
     }
 
     foreach ($order as $k => &$weight) {
-        if (strpos($weight, 'before:') === 0) {
+        if (str_starts_with($weight, 'before:')) {
             $target = substr($weight, 7);
 
             if (isset($order[$target])) {
@@ -385,7 +432,7 @@ function sort_by_weight(array $array, callable $weight_picker): array
                 $weight = 0;
             }
         } else {
-            if (strpos($weight, 'after:') === 0) {
+            if (str_starts_with($weight, 'after:')) {
                 $target = substr($weight, 6);
 
                 if (isset($order[$target])) {
@@ -414,11 +461,12 @@ function sort_by_weight(array $array, callable $weight_picker): array
  * @param array<int|string, mixed> $array
  * @param mixed $relative
  * @param mixed $value
- * @param string|int $key
+ * @param string|int|null $key
+ * @param bool $after
  *
  * @return array<int|string, mixed>
  */
-function array_insert(array $array, $relative, $value, $key = null, bool $after = false): array
+function array_insert(array $array, mixed $relative, mixed $value, string|int $key = null, bool $after = false): array
 {
     if ($key) {
         unset($array[$key]);
@@ -454,7 +502,7 @@ function array_insert(array $array, $relative, $value, $key = null, bool $after 
  *
  * @return array<int|string, mixed>
  */
-function array_flatten(array $array, $separator = '.', int $depth = 0): array
+function array_flatten(array $array, string|array $separator = '.', int $depth = 0): array
 {
     $rc = [];
 
@@ -494,14 +542,15 @@ function array_flatten(array $array, $separator = '.', int $depth = 0): array
 /**
  * Merge arrays recursively with a different algorithm than PHP.
  *
- * @param array<int|string, mixed> $array1
- * @param array<int|string, mixed>|array<int|string, mixed>... $array2
+ * @param array<int|string, mixed> ...$arrays
  *
  * @return array<int|string, mixed>
  */
-function array_merge_recursive(array $array1, array $array2 = []): array
+function array_merge_recursive(array ...$arrays): array
 {
-    $arrays = func_get_args();
+    if (count($arrays) < 2) {
+        return reset($arrays) ?: [];
+    }
 
     $merge = array_shift($arrays);
 
@@ -533,14 +582,15 @@ function array_merge_recursive(array $array1, array $array2 = []): array
 }
 
 /**
- * @param array<int|string, mixed> $array1
- * @param array<int|string, mixed>|array<int|string, mixed>... $array2
+ * @param array<int|string, mixed> ...$arrays
  *
  * @return array<int|string, mixed>
  */
-function exact_array_merge_recursive(array $array1, array $array2 = []): array
+function exact_array_merge_recursive(array ...$arrays): array
 {
-    $arrays = func_get_args();
+    if (count($arrays) < 2) {
+        return reset($arrays) ?: [];
+    }
 
     $merge = array_shift($arrays);
 
@@ -575,8 +625,7 @@ function normalize_url_path(string $path): string
         return $cache[$path];
     }
 
-    $normalized = preg_replace('#/index\.(html|php)$#', '/', $path);
-    // @phpstan-ignore-next-line
+    $normalized = preg_replace('#/index\.(html|php)$#', '/', $path) ?? "";
     $normalized = rtrim($normalized, '/');
 
     if (!preg_match('#\.[a-z]+$#', $normalized)) {

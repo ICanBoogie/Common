@@ -40,12 +40,6 @@ final class FormattedStringTest extends TestCase
         $this->assertEquals('Testing... A B', (string) $s);
     }
 
-    public function testArgList(): void
-    {
-        $s = new FormattedString('Testing... {0} {1}', 'A', 'B');
-        $this->assertEquals('Testing... A B', (string) $s);
-    }
-
     public function testEscaping(): void
     {
         $s = new FormattedString('Testing... !a', [ 'a' => '<>' ]);

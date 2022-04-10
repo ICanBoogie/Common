@@ -22,11 +22,9 @@ use Throwable;
 class PropertyNotWritable extends LogicException implements PropertyError
 {
     /**
-     * @param string|array $message
-     *
      * @phpstan-param string|array{0: string, 1: object} $message
      */
-    public function __construct($message, Throwable $previous = null)
+    public function __construct(string|array $message, Throwable $previous = null)
     {
         if (is_array($message)) {
             [ $property, $container ] = $message + [ 1 => null ];
