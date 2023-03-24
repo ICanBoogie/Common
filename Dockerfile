@@ -1,4 +1,5 @@
-FROM php:8.0-cli-buster
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}-cli-buster
 
 RUN apt-get update && \
 	apt-get install -y autoconf pkg-config && \
@@ -26,7 +27,4 @@ RUN apt-get update && \
 	mv composer.phar /usr/local/bin/composer && \
 	echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"\n' >> /root/.bashrc
 
-#
-# Package specifics stages
-#
 RUN composer global require squizlabs/php_codesniffer

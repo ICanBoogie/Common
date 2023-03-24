@@ -1,15 +1,6 @@
 <?php
 
-/*
- * This file is part of the ICanBoogie package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace Tests\ICanBoogie;
+namespace Test\ICanBoogie;
 
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +12,7 @@ use function ICanBoogie\sort_by_weight;
 final class HelpersTest extends TestCase
 {
     // @phpstan-ignore-next-line
-    public function arrayProvider(): array
+    public static function provide_array(): array
     {
         return [
             [
@@ -66,7 +57,7 @@ final class HelpersTest extends TestCase
     }
 
     /**
-     * @dataProvider arrayProvider()
+     * @dataProvider provide_array()
      *
      * @phpstan-ignore-next-line
      */
@@ -95,7 +86,7 @@ final class HelpersTest extends TestCase
     }
 
     /**
-     * @dataProvider arrayProvider()
+     * @dataProvider provide_array()
      *
      * @phpstan-ignore-next-line
      */
@@ -136,7 +127,7 @@ final class HelpersTest extends TestCase
     }
 
     // @phpstan-ignore-next-line
-    public function provide_test_sort_by_weight(): array
+    public static function provide_test_sort_by_weight(): array
     {
         return [
             #1
@@ -209,8 +200,10 @@ final class HelpersTest extends TestCase
         $this->assertEquals($expected, remove_accents($str));
     }
 
-    // @phpstan-ignore-next-line
-    public function provide_test_remove_accents(): array
+    /**
+     * @return array<array{ string, string }>
+     */
+    public static function provide_test_remove_accents(): array
     {
         return [
             [ 'AAAAAAAE', 'ÁÀÂÄÃÅÆ' ],
@@ -244,8 +237,10 @@ final class HelpersTest extends TestCase
         $this->assertEquals($expected, format($format, $args));
     }
 
-    // @phpstan-ignore-next-line
-    public function provide_test_format(): array
+    /**
+     * @return array<array{ string, array<int|string, string>, string }>
+     */
+    public static function provide_test_format(): array
     {
         return [
 

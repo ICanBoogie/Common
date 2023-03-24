@@ -1,4 +1,4 @@
-.phpunit.result.cache
-composer.lock
+.phpunit.cache
 build
+composer.lock
 vendor

@@ -306,14 +306,17 @@ function format(string $str, array $args = []): string
                     break;
 
                 case '!':
+                    /** @phpstan-ignore-next-line */
                     $value = escape($value);
                     break;
 
                 case '%':
+                    /** @phpstan-ignore-next-line */
                     $value = $quotation_start . escape($value) . $quotation_end;
                     break;
 
                 default:
+                    /** @phpstan-ignore-next-line */
                     $escaped_value = escape($value);
 
                     $holders['{' . $key . '}'] = $escaped_value;

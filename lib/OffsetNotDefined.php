@@ -22,7 +22,7 @@ use Throwable;
 class OffsetNotDefined extends LogicException implements OffsetError
 {
     /**
-     * @phpstan-param string|array{0: string|int, 1: array|object} $message
+     * @param string|array{string|int, array<int|string, mixed>|object} $message
      */
     public function __construct(string|array $message, Throwable $previous = null)
     {

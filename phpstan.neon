@@ -1,5 +1,5 @@
 parameters:
-    level: max
-    paths:
-        - lib
-        - tests
+  level: max
+  paths:
+    - lib
+    - tests
