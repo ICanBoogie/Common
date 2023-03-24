@@ -2,9 +2,11 @@
 
 namespace Test\ICanBoogie;
 
+use AllowDynamicProperties;
 use ICanBoogie\ToArrayRecursive;
 use ICanBoogie\ToArrayRecursiveTrait;
 
+#[AllowDynamicProperties]
 class SampleToArrayRecursive implements ToArrayRecursive
 {
     use ToArrayRecursiveTrait;

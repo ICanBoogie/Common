@@ -16,7 +16,7 @@ None
 
 ### Deprecated Features
 
-None
+- `stable_sort()` since PHP 8.0, [sorting is stable](https://wiki.php.net/rfc/stable_sorting), use `asort()` or `uasort()` instead.
 
 ### Other Changes
 

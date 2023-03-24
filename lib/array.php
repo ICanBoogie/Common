@@ -22,6 +22,9 @@ use function max;
 use function min;
 use function reset;
 use function substr;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
 
 /**
  * Sorts an array using a stable sorting algorithm while preserving its keys.
@@ -33,34 +36,18 @@ use function substr;
  * to create an array with an ascending index.
  *
  * @param array<int|string, mixed> $array
+ *
+ * @deprecated Since PHP 8.0, asort() is stable https://wiki.php.net/rfc/stable_sorting
  */
 function stable_sort(array &$array, callable $picker = null): void
 {
-    static $transform, $restore;
-
-    $i = 0;
-
-    if (!$transform) {
-        $transform = function (&$v, $k) use (&$i) {
-            $v = [ $v, ++$i, $k, $v ];
-        };
-
-        $restore = function (&$v) {
-            $v = $v[3];
-        };
-    }
+    @trigger_error('icanboogie/common: stable_sort() is deprecated, use asort() or uasort()', E_USER_DEPRECATED);
 
     if ($picker) {
-        array_walk($array, function (&$v, $k) use (&$i, $picker) {
-            $v = [ $picker($v, $k), ++$i, $k, $v ];
-        });
+        uasort($array, $picker);
     } else {
-        array_walk($array, $transform);
+        asort($array);
     }
-
-    asort($array);
-
-    array_walk($array, $restore);
 }
 
 /**
@@ -89,9 +76,7 @@ function sort_by_weight(array $array, callable $weight_picker): array
 
     $n = count($order);
 
-    $numeric_order = array_filter($order, function ($weight) {
-        return is_scalar($weight) && is_numeric($weight);
-    });
+    $numeric_order = array_filter($order, fn($weight) => is_scalar($weight) && is_numeric($weight));
 
     if ($numeric_order) {
         $top = min($numeric_order) - $n;
@@ -133,7 +118,7 @@ function sort_by_weight(array $array, callable $weight_picker): array
         }
     }
 
-    stable_sort($order);
+    asort($order);
 
     array_walk($order, function (&$v, $k) use ($array) {
         $v = $array[$k];
@@ -187,7 +172,7 @@ function array_insert(array $array, mixed $relative, mixed $value, string|int $k
  * Flattens an array.
  *
  * @param array<int|string, mixed> $array
- * @param string|array{0: string, 1: string} $separator
+ * @param string|array{ string, string } $separator
  *
  * @return array<int|string, mixed>
  */
