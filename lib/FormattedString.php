@@ -19,14 +19,16 @@ namespace ICanBoogie;
 class FormattedString
 {
     /**
-     * @param string $format String format.
-     * @param array<int|string, mixed> $args Format arguments.
+     * @param string $format
+     *     String format.
+     * @param array<int|string, mixed> $args
+     *     Format arguments.
      *
      * @see format()
      */
     public function __construct(
-        private string $format,
-        private array $args = []
+        private readonly string $format,
+        private readonly array $args = []
     ) {
     }
 

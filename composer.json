@@ -37,7 +37,8 @@
       "ICanBoogie\\": "lib"
     },
     "files": [
-      "lib/helpers.php"
+      "lib/array.php",
+      "lib/string.php"
     ]
   },
   "autoload-dev": {
