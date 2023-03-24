@@ -8,7 +8,7 @@
 
 ### New features
 
-None
+- Added `iterable_to_dictionary()` to transform an iterable into a dictionary.
 
 ### Backward Incompatible Changes
 

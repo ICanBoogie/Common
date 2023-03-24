@@ -37,7 +37,7 @@ use const E_USER_DEPRECATED;
  *
  * @param array<int|string, mixed> $array
  *
- * @deprecated Since PHP 8.0, asort() is stable https://wiki.php.net/rfc/stable_sorting
+ * @deprecated Since PHP 8.0, sorting is stable https://wiki.php.net/rfc/stable_sorting
  */
 function stable_sort(array &$array, callable $picker = null): void
 {
@@ -284,4 +284,28 @@ function exact_array_merge_recursive(array ...$arrays): array
     }
 
     return $merge;
+}
+
+/**
+ * @template TKey of int|string
+ * @template TSource
+ * @template TElement
+ *
+ * @param iterable<TSource> $it
+ * @param callable(TSource):TKey $key_selector
+ * @param ?callable(TSource):TElement $element_selector
+ *
+ * @return ($element_selector is null ? array<TKey, TSource> : array<TKey, TElement>)
+ */
+function iterable_to_dictionary(iterable $it, callable $key_selector, callable $element_selector = null): array
+{
+    $ar = [];
+
+    foreach ($it as $source) {
+        /** @var TElement $element */
+        $element = $element_selector ? $element_selector($source) : $source;
+        $ar[$key_selector($source)] = $element;
+    }
+
+    return $ar;
 }
