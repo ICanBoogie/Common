@@ -287,6 +287,9 @@ function exact_array_merge_recursive(array ...$arrays): array
 }
 
 /**
+ * Creates a dictionary from an iterable according to specified key selector function
+ * and optional element selector function.
+ *
  * @template TKey of int|string
  * @template TSource
  * @template TElement
@@ -303,8 +306,37 @@ function iterable_to_dictionary(iterable $it, callable $key_selector, callable $
 
     foreach ($it as $source) {
         /** @var TElement $element */
+        $key = $key_selector($source);
         $element = $element_selector ? $element_selector($source) : $source;
-        $ar[$key_selector($source)] = $element;
+        $ar[$key] = $element;
+    }
+
+    return $ar;
+}
+
+/**
+ * Groups the elements of a sequence according to a specified key selector function
+ * and optionally projects the elements for each group by using a specified function.
+ *
+ * @template TKey of int|string
+ * @template TSource
+ * @template TElement
+ *
+ * @param iterable<TSource> $it
+ * @param callable(TSource):TKey $key_selector
+ * @param ?callable(TSource):TElement $element_selector
+ *
+ * @return ($element_selector is null ? array<TKey, array<TSource>> : array<TKey, array<TElement>>)
+ */
+function iterable_to_groups(iterable $it, callable $key_selector, callable $element_selector = null): array
+{
+    $ar = [];
+
+    foreach ($it as $source) {
+        /** @var TElement $element */
+        $key = $key_selector($source);
+        $element = $element_selector ? $element_selector($source) : $source;
+        $ar[$key][] = $element;
     }
 
     return $ar;

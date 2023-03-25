@@ -9,6 +9,7 @@
 ### New features
 
 - Added `iterable_to_dictionary()` to transform an iterable into a dictionary.
+- Added `iterable_to_groups()` to transform an iterable into a bucket dictionary.
 
 ### Backward Incompatible Changes
 
