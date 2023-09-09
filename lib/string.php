@@ -38,9 +38,12 @@ use function random_bytes;
 use function rtrim;
 use function str_replace;
 use function str_split;
+use function str_starts_with;
 use function strcasecmp;
 use function strcmp;
+use function strlen;
 use function strtolower;
+use function substr;
 use function trim;
 use function vsprintf;
 use function xdebug_var_dump;
@@ -357,4 +360,30 @@ function generate_v4_uuid(): string
     $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
 
     return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+}
+
+/**
+ * Returns `$str` without the provided leading prefix string.
+ * If `$str` doesn't start with `$prefix`, `$str` is returned unchanged.
+ */
+function trim_prefix(string $str, string $prefix): string
+{
+    if (str_starts_with($str, $prefix)) {
+        $str = substr($str, strlen($prefix));
+    }
+
+    return $str;
+}
+
+/**
+ * Returns `$str` without the provided trailing suffix string.
+ * If `$str` doesn't end with `$prefix`, `$str` is returned unchanged.
+ */
+function trim_suffix(string $str, string $prefix): string
+{
+    if (str_ends_with($str, $prefix)) {
+        $str = substr($str, 0, -strlen($prefix));
+    }
+
+    return $str;
 }

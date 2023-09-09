@@ -10,6 +10,8 @@
 
 - Added `iterable_to_dictionary()` to transform an iterable into a dictionary.
 - Added `iterable_to_groups()` to transform an iterable into a bucket dictionary.
+- Added `trim_prefix()` to trim a prefix from a string.
+- Added `trim_suffix()` to trim a suffix from a string.
 
 ### Backward Incompatible Changes
 
