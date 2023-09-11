@@ -290,7 +290,7 @@ function exact_array_merge_recursive(array ...$arrays): array
  * Creates a dictionary from an iterable according to specified key selector function
  * and optional element selector function.
  *
- * @template TKey of int|string
+ * @template TKey of int|non-empty-string
  * @template TSource
  * @template TElement
  *
@@ -318,7 +318,7 @@ function iterable_to_dictionary(iterable $it, callable $key_selector, callable $
  * Groups the elements of a sequence according to a specified key selector function
  * and optionally projects the elements for each group by using a specified function.
  *
- * @template TKey of int|string
+ * @template TKey of int|non-empty-string
  * @template TSource
  * @template TElement
  *
