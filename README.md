@@ -14,6 +14,35 @@ composer require icanboogie/common
 ```
 
 
+## Functions
+
+### Functions for iterables
+
+`iterable_every()` tests whether every value in an iterable match a predicate.
+
+```php
+<?php
+
+$is_below = fn($max) => fn($value) => $value < $max;
+$items = [ 1, 30, 39, 29, 10, 13 ];
+
+iterable_every($items, $is_below(40)) // true
+iterable_every($items, $is_below(30)) // false
+```
+
+`iterable_some()` tests whether at least one value in an iterable matches a predicate.
+
+```php
+<?php
+
+$is_above = fn($max) => fn($value) => $value > $max;
+$items = [ 1, 30, 39, 29, 10, 13 ];
+
+iterable_some($items, $is_above(40)) // false
+iterable_some($items, $is_above(30)) // true
+```
+
+
 
 ## Exceptions
 

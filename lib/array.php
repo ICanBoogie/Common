@@ -298,7 +298,7 @@ function exact_array_merge_recursive(array ...$arrays): array
  * @param callable(TSource):TKey $key_selector
  * @param ?callable(TSource):TElement $element_selector
  *
- * @return ($element_selector is null ? array<TKey, TSource> : array<TKey, TElement>)
+ * @return ($element_selector is null ? array<TKey|int, TSource> : array<TKey, TElement>)
  */
 function iterable_to_dictionary(iterable $it, callable $key_selector, callable $element_selector = null): array
 {
@@ -340,4 +340,42 @@ function iterable_to_groups(iterable $it, callable $key_selector, callable $elem
     }
 
     return $ar;
+}
+
+/**
+ * Tests whether every value in the iterable match the predicate.
+ *
+ * @template T
+ *
+ * @param iterable<int|string, T> $it
+ * @param callable(T):bool $predicate
+ */
+function iterable_every(iterable $it, callable $predicate): bool
+{
+    foreach ($it as $value) {
+        if (!$predicate($value)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Tests whether at least one element in the array matches the predicate.
+ *
+ * @template T
+ *
+ * @param iterable<int|string, T> $it
+ * @param callable(T):bool $predicate
+ */
+function iterable_some(iterable $it, callable $predicate): bool
+{
+    foreach ($it as $value) {
+        if ($predicate($value)) {
+            return true;
+        }
+    }
+
+    return false;
 }

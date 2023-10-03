@@ -8,6 +8,8 @@
 
 ### New features
 
+- Added `iterable_every()` to check all values match a predicate.
+- Added `iterable_some()` to check at least one value matches a predicate.
 - Added `iterable_to_dictionary()` to transform an iterable into a dictionary.
 - Added `iterable_to_groups()` to transform an iterable into a bucket dictionary.
 - Added `trim_prefix()` to trim a prefix from a string.

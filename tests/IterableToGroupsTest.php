@@ -100,10 +100,10 @@ final class IterableToGroupsTest extends TestCase
      */
     private static function iterable_of_object(): iterable
     {
-        yield new SampleObject("a", 'V1' );
-        yield new SampleObject("a", 'V2' );
-        yield new SampleObject("b", 'V3' );
-        yield new SampleObject("b", 'V4' );
-        yield new SampleObject("c", 'V5' );
+        yield new SampleObject("a", 'V1');
+        yield new SampleObject("a", 'V2');
+        yield new SampleObject("b", 'V3');
+        yield new SampleObject("b", 'V4');
+        yield new SampleObject("c", 'V5');
     }
 }

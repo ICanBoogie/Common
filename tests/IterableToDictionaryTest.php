@@ -3,7 +3,6 @@
 namespace Test\ICanBoogie;
 
 use PHPUnit\Framework\TestCase;
-
 use Test\ICanBoogie\Acme\SampleObject;
 
 use function ICanBoogie\iterable_to_dictionary;
@@ -83,8 +82,8 @@ final class IterableToDictionaryTest extends TestCase
      */
     private static function iterable_of_object(): iterable
     {
-        yield new SampleObject("a", 'V1' );
-        yield new SampleObject("b", 'V2' );
-        yield new SampleObject("c", 'V3' );
+        yield new SampleObject("a", 'V1');
+        yield new SampleObject("b", 'V2');
+        yield new SampleObject("c", 'V3');
     }
 }
