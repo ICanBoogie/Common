@@ -17,7 +17,7 @@
 
 ### Backward Incompatible Changes
 
-None
+- Changed the constructors of the following exceptions: `OffsetNotDefined`, `OffsetNotReadable`, `OffsetNotWritable`, `PropertyNotDefined`, `PropertyNotReadable`, and `PropertyNotWritable`.
 
 ### Deprecated Features
 

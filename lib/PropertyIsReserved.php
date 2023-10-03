@@ -21,21 +21,13 @@ use Throwable;
  */
 class PropertyIsReserved extends LogicException implements PropertyError
 {
-    public function __construct(private string $property, Throwable $previous = null)
-    {
+    public function __construct(
+        public readonly string $property,
+        Throwable $previous = null
+    ) {
         parent::__construct(
-            format('Property %property is reserved.', [ '%property' => $property ]),
-            0,
-            $previous
+            "Property '$property' is reserved",
+            previous: $previous
         );
-    }
-
-    public function __get(string $property): string
-    {
-        if ($property === 'property') {
-            return $this->property;
-        }
-
-        throw new PropertyNotDefined([ $property, $this ]);
     }
 }

@@ -81,7 +81,7 @@ class A
 			return $this->id;
 		}
 
-		throw new PropertyNotDefined([ $property, $this ]);
+		throw new PropertyNotDefined(property: $property, container: $this);
 	}
 }
 ```

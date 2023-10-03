@@ -22,13 +22,15 @@ use Throwable;
 class OffsetNotDefined extends LogicException implements OffsetError
 {
     /**
-     * @param string|array{string|int, array<int|string, mixed>|object} $message
+     * @phpstan-ignore-next-line
      */
-    public function __construct(string|array $message, Throwable $previous = null)
-    {
-        if (is_array($message)) {
-            [ $offset, $container ] = $message + [ 1 => null ];
-
+    public function __construct(
+        public readonly string|int $offset,
+        public readonly array|object|null $container = null,
+        string $message = null,
+        Throwable $previous = null
+    ) {
+        if (!$message) {
             if (is_object($container)) {
                 $message = format('Undefined offset %offset for object of class %class.', [
                     '%offset' => $offset,
@@ -46,6 +48,6 @@ class OffsetNotDefined extends LogicException implements OffsetError
             }
         }
 
-        parent::__construct($message, 0, $previous);
+        parent::__construct($message, previous: $previous);
     }
 }

@@ -21,20 +21,18 @@ use Throwable;
  */
 class PropertyNotDefined extends LogicException implements PropertyError
 {
-    /**
-     * @phpstan-param string|array{0: string, 1: object} $message
-     */
-    public function __construct(string|array $message, Throwable $previous = null)
-    {
-        if (is_array($message)) {
-            [ $property, $container ] = $message + [ 1 => null ];
+    public function __construct(
+        public readonly string $property,
+        public readonly object $container,
+        string $message = null,
+        Throwable $previous = null
+    ) {
+        $message ??= sprintf(
+            "Undefined property '%s' for object of class '%s'",
+            $property,
+            $container::class
+        );
 
-            $message = format('Undefined property %property for object of class %class.', [
-                '%property' => $property,
-                '%class' => get_class($container)
-            ]);
-        }
-
-        parent::__construct($message, 0, $previous);
+        parent::__construct($message, previous: $previous);
     }
 }
