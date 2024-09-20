@@ -290,15 +290,14 @@ function exact_array_merge_recursive(array ...$arrays): array
  * Creates a dictionary from an iterable according to the specified key selector function
  * and optional element selector function.
  *
- * @template TKey of int|non-empty-string
  * @template TSource
  * @template TElement
  *
  * @param iterable<TSource> $it
- * @param callable(TSource):TKey $key_selector
+ * @param callable(TSource):(int|string) $key_selector
  * @param ?callable(TSource):TElement $element_selector
  *
- * @return ($element_selector is null ? array<TKey|int, TSource> : array<TKey, TElement>)
+ * @return ($element_selector is null ? array<int|string, TSource> : array<int|string, TElement>)
  */
 function iterable_to_dictionary(iterable $it, callable $key_selector, ?callable $element_selector = null): array
 {
@@ -319,15 +318,14 @@ function iterable_to_dictionary(iterable $it, callable $key_selector, ?callable 
  * Groups the elements of a sequence according to the specified key selector function
  * and optionally projects the elements for each group by using a specified function.
  *
- * @template TKey of int|non-empty-string
  * @template TSource
  * @template TElement
  *
  * @param iterable<TSource> $it
- * @param callable(TSource):TKey $key_selector
+ * @param callable(TSource):(int|string) $key_selector
  * @param ?callable(TSource):TElement $element_selector
  *
- * @return ($element_selector is null ? array<TKey, array<TSource>> : array<TKey, array<TElement>>)
+ * @return ($element_selector is null ? array<int|string, array<TSource>> : array<int|string, array<TElement>>)
  */
 function iterable_to_groups(iterable $it, callable $key_selector, ?callable $element_selector = null): array
 {
