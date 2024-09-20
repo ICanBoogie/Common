@@ -1,4 +1,4 @@
-# Migration
+# Changelog
 
 ## v2.x to v6.0
 

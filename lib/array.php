@@ -31,13 +31,13 @@ use const E_USER_DEPRECATED;
  *
  * A stable sorting algorithm maintains the relative order of values with equal keys.
  *
- * The array is always sorted in ascending order but one can use the array_reverse() function to
+ * The array is always sorted in ascending order, but one can use the array_reverse() function to
  * reverse the array. Also, keys are preserved, even numeric ones, use the array_values() function
  * to create an array with an ascending index.
  *
  * @param array<int|string, mixed> $array
  *
- * @deprecated Since PHP 8.0, sorting is stable https://wiki.php.net/rfc/stable_sorting
+ * @deprecated Sorting has been stable since PHP 8.0 https://wiki.php.net/rfc/stable_sorting
  */
 function stable_sort(array &$array, callable $picker = null): void
 {
@@ -287,7 +287,7 @@ function exact_array_merge_recursive(array ...$arrays): array
 }
 
 /**
- * Creates a dictionary from an iterable according to specified key selector function
+ * Creates a dictionary from an iterable according to the specified key selector function
  * and optional element selector function.
  *
  * @template TKey of int|non-empty-string
@@ -300,14 +300,15 @@ function exact_array_merge_recursive(array ...$arrays): array
  *
  * @return ($element_selector is null ? array<TKey|int, TSource> : array<TKey, TElement>)
  */
-function iterable_to_dictionary(iterable $it, callable $key_selector, callable $element_selector = null): array
+function iterable_to_dictionary(iterable $it, callable $key_selector, ?callable $element_selector = null): array
 {
     $ar = [];
+    $element_selector ??= fn ($source) => $source;
 
     foreach ($it as $source) {
         /** @var TElement $element */
         $key = $key_selector($source);
-        $element = $element_selector ? $element_selector($source) : $source;
+        $element = $element_selector($source);
         $ar[$key] = $element;
     }
 
@@ -315,7 +316,7 @@ function iterable_to_dictionary(iterable $it, callable $key_selector, callable $
 }
 
 /**
- * Groups the elements of a sequence according to a specified key selector function
+ * Groups the elements of a sequence according to the specified key selector function
  * and optionally projects the elements for each group by using a specified function.
  *
  * @template TKey of int|non-empty-string
@@ -328,14 +329,15 @@ function iterable_to_dictionary(iterable $it, callable $key_selector, callable $
  *
  * @return ($element_selector is null ? array<TKey, array<TSource>> : array<TKey, array<TElement>>)
  */
-function iterable_to_groups(iterable $it, callable $key_selector, callable $element_selector = null): array
+function iterable_to_groups(iterable $it, callable $key_selector, ?callable $element_selector = null): array
 {
     $ar = [];
+    $element_selector ??= fn ($source) => $source;
 
     foreach ($it as $source) {
         /** @var TElement $element */
         $key = $key_selector($source);
-        $element = $element_selector ? $element_selector($source) : $source;
+        $element = $element_selector($source);
         $ar[$key][] = $element;
     }
 
