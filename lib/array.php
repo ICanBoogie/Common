@@ -39,7 +39,7 @@ use const E_USER_DEPRECATED;
  *
  * @deprecated Sorting has been stable since PHP 8.0 https://wiki.php.net/rfc/stable_sorting
  */
-function stable_sort(array &$array, callable $picker = null): void
+function stable_sort(array &$array, ?callable $picker = null): void
 {
     @trigger_error('icanboogie/common: stable_sort() is deprecated, use asort() or uasort()', E_USER_DEPRECATED);
 
@@ -140,8 +140,13 @@ function sort_by_weight(array $array, callable $weight_picker): array
  *
  * @return array<int|string, mixed>
  */
-function array_insert(array $array, mixed $relative, mixed $value, string|int $key = null, bool $after = false): array
-{
+function array_insert(
+    array $array,
+    mixed $relative,
+    mixed $value,
+    string|int|null $key = null,
+    bool $after = false
+): array {
     if ($key) {
         unset($array[$key]);
     }

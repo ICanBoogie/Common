@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the ICanBoogie package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace ICanBoogie;
 
 use LogicException;
@@ -24,8 +15,8 @@ class PropertyNotReadable extends LogicException implements PropertyError
     public function __construct(
         public readonly string $property,
         public readonly object $container,
-        string $message = null,
-        Throwable $previous = null
+        ?string $message = null,
+        ?Throwable $previous = null
     ) {
         $message ??= sprintf(
             "The property '%s' for object of class '%s is not readable.",

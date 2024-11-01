@@ -58,7 +58,7 @@ use const PHP_SAPI;
  * HTML special characters are escaped using the {@link htmlspecialchars()} function with the
  * {@link ENT_COMPAT} flag.
  */
-function escape(string $str, string $encoding = null): string
+function escape(string $str, ?string $encoding = null): string
 {
     return htmlspecialchars($str, ENT_COMPAT, $encoding);
 }
@@ -68,7 +68,7 @@ function escape(string $str, string $encoding = null): string
  *
  * Applicable characters are escaped using the {@link htmlentities()} function with the {@link ENT_COMPAT} flag.
  */
-function escape_all(string $str, string $encoding = null): string
+function escape_all(string $str, ?string $encoding = null): string
 {
     return htmlentities($str, ENT_COMPAT, $encoding);
 }
@@ -123,7 +123,7 @@ if (!function_exists(__NAMESPACE__ . '\capitalize')) {
  * @param float $position Position at which characters can be removed.
  * @param bool $shortened `true` if the string was shortened, `false` otherwise.
  */
-function shorten(string $str, int $length = 32, float $position = .75, bool &$shortened = null): string
+function shorten(string $str, int $length = 32, float $position = .75, ?bool &$shortened = null): string
 {
     $l = mb_strlen($str);
 
@@ -152,7 +152,7 @@ function shorten(string $str, int $length = 32, float $position = .75, bool &$sh
 /**
  * Removes the accents of a string.
  */
-function remove_accents(string $str, string $encoding = null): string
+function remove_accents(string $str, ?string $encoding = null): string
 {
     $str = htmlentities($str, ENT_NOQUOTES, $encoding);
     $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
@@ -192,7 +192,7 @@ function unaccent_compare_ci(string $a, string $b): int
  * @param string $str The string to normalize.
  * @param string $separator The separator characters replaces characters the don't match [a-z0-9].
  */
-function normalize(string $str, string $separator = '-', string $encoding = null): string
+function normalize(string $str, string $separator = '-', ?string $encoding = null): string
 {
     static $cache;
 

@@ -1,13 +1,8 @@
 # customization
 
-PACKAGE_NAME = icanboogie/common
 PHPUNIT = vendor/bin/phpunit
 
 # do not edit the following lines
-
-.PHONY: usage
-usage:
-	@echo "test:  Runs the test suite.\ndoc:   Creates the documentation.\nclean: Removes the documentation, the dependencies and the Composer files."
 
 vendor:
 	@composer install
@@ -47,6 +42,11 @@ test-container-82:
 .PHONY: test-container-83
 test-container-83:
 	@-docker-compose run --rm app83 bash
+	@docker-compose down -v
+
+.PHONY: test-container-84
+test-container-84:
+	@-docker-compose run --rm app84 bash
 	@docker-compose down -v
 
 .PHONY: lint
