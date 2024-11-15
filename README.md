@@ -1,7 +1,7 @@
 # Common
 
 [![Release](https://img.shields.io/packagist/v/icanboogie/common.svg)](https://packagist.org/packages/icanboogie/common)
-[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/Common/badge.svg?branch=2.1)](https://coveralls.io/r/ICanBoogie/Common?branch=2.1)
+[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/Common/badge.svg?branch=main)](https://coveralls.io/r/ICanBoogie/Common?branch=main)
 [![Packagist](https://img.shields.io/packagist/dt/icanboogie/common.svg)](https://packagist.org/packages/icanboogie/common)
 
 This package provides basic classes and helpers shared by many [ICanBoogie][]
@@ -95,9 +95,9 @@ class A implements ToArrayRecursive
 
 The project is continuously tested by [GitHub actions](https://github.com/ICanBoogie/Common/actions).
 
-[![Tests](https://github.com/ICanBoogie/Common/actions/workflows/test.yml/badge.svg?branch=2.1)](https://github.com/ICanBoogie/Common/actions/workflows/test.yml)
-[![Static Analysis](https://github.com/ICanBoogie/Common/actions/workflows/static-analysis.yml/badge.svg?branch=2.1)](https://github.com/ICanBoogie/Common/actions/workflows/static-analysis.yml)
-[![Code Style](https://github.com/ICanBoogie/Common/actions/workflows/code-style.yml/badge.svg?branch=2.1)](https://github.com/ICanBoogie/Common/actions/workflows/code-style.yml)
+[![Tests](https://github.com/ICanBoogie/Common/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/ICanBoogie/Common/actions/workflows/test.yml)
+[![Static Analysis](https://github.com/ICanBoogie/Common/actions/workflows/static-analysis.yml/badge.svg?branch=main)](https://github.com/ICanBoogie/Common/actions/workflows/static-analysis.yml)
+[![Code Style](https://github.com/ICanBoogie/Common/actions/workflows/code-style.yml/badge.svg?branch=main)](https://github.com/ICanBoogie/Common/actions/workflows/code-style.yml)
 
 
 
