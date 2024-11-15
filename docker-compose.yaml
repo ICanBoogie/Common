@@ -1,0 +1,21 @@
+---
+services:
+  app71:
+    build:
+      context: .
+      args:
+        PHP_TAG: 7.1-cli-buster
+    environment: &env
+      PHP_IDE_CONFIG: 'serverName=icanboogie-common'
+    volumes: &vol
+    - .:/app:delegated
+    - ~/.composer:/root/.composer:delegated
+    working_dir: /app
+  app84:
+    build:
+      context: .
+      args:
+        PHP_TAG: 8.4.0RC4-cli-bookworm
+    environment: *env
+    volumes: *vol
+    working_dir: /app

@@ -1,17 +1,16 @@
 # Common
 
 [![Release](https://img.shields.io/packagist/v/icanboogie/common.svg)](https://packagist.org/packages/icanboogie/common)
-[![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/Common.svg)](https://scrutinizer-ci.com/g/ICanBoogie/Common)
-[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/Common.svg)](https://coveralls.io/r/ICanBoogie/Common)
+[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/Common/badge.svg?branch=2.1)](https://coveralls.io/r/ICanBoogie/Common?branch=2.1)
 [![Packagist](https://img.shields.io/packagist/dt/icanboogie/common.svg)](https://packagist.org/packages/icanboogie/common)
 
 This package provides basic classes and helpers shared by many [ICanBoogie][]
-packages. It provides offset exceptions, property exceptions, some interfaces, and helpers to
-transform strings and arrays.
+packages. It provides offset exceptions, property exceptions, some interfaces,
+and helpers to transform strings and arrays.
 
 #### Installation
 
-```bash
+```shell
 composer require icanboogie/common
 ```
 
@@ -21,7 +20,7 @@ composer require icanboogie/common
 
 ### Offset exceptions
 
-The following exceptions related to array offset are defined by the package:
+The package defines the following exceptions related to array offset:
 
 * [OffsetError][]: Interface for offset errors.
 * [OffsetNotDefined][]: Exception thrown when an array offset is not defined.
@@ -63,7 +62,7 @@ class A
 
 ## Interfaces
 
-The following interfaces are defined by the package:
+The package defines the following interfaces:
 
 - [ToArray][]: Should be implemented by classes whose instances can be converted into arrays.
 - [ToArrayRecursive][]: Should be implemented by classes whose instances can be converted into
@@ -96,41 +95,34 @@ class A implements ToArrayRecursive
 
 The project is continuously tested by [GitHub actions](https://github.com/ICanBoogie/Common/actions).
 
-[![Tests](https://github.com/ICanBoogie/Common/workflows/test/badge.svg?branch=master)](https://github.com/ICanBoogie/master/actions?query=workflow%3Atest)
-[![Static Analysis](https://github.com/ICanBoogie/Common/workflows/static-analysis/badge.svg?branch=master)](https://github.com/ICanBoogie/Common/actions?query=workflow%3Astatic-analysis)
-[![Code Style](https://github.com/ICanBoogie/Common/workflows/code-style/badge.svg?branch=master)](https://github.com/ICanBoogie/Common/actions?query=workflow%3Acode-style)
+[![Tests](https://github.com/ICanBoogie/Common/actions/workflows/test.yml/badge.svg?branch=2.1)](https://github.com/ICanBoogie/Common/actions/workflows/test.yml)
+[![Static Analysis](https://github.com/ICanBoogie/Common/actions/workflows/static-analysis.yml/badge.svg?branch=2.1)](https://github.com/ICanBoogie/Common/actions/workflows/static-analysis.yml)
+[![Code Style](https://github.com/ICanBoogie/Common/actions/workflows/code-style.yml/badge.svg?branch=2.1)](https://github.com/ICanBoogie/Common/actions/workflows/code-style.yml)
 
 
 
 ## Code of Conduct
 
-This project adheres to a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project and its
-community, you are expected to uphold this code.
+This project adheres to a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in
+this project and its community, you're expected to uphold this code.
 
 
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 
 
-## License
-
-**icanboogie/common** is released under the [BSD-3-Clause](LICENSE).
-
-
-
-[documentation]:         https://icanboogie.org/api/common/1.2/
-[OffsetError]:           https://icanboogie.org/api/common/1.2/class-ICanBoogie.OffsetError.html
-[OffsetNotDefined]:      https://icanboogie.org/api/common/1.2/class-ICanBoogie.OffsetNotDefined.html
-[OffsetNotReadable]:     https://icanboogie.org/api/common/1.2/class-ICanBoogie.OffsetNotReadable.html
-[OffsetNotWritable]:     https://icanboogie.org/api/common/1.2/class-ICanBoogie.OffsetNotWritable.html
-[PropertyError]:         https://icanboogie.org/api/common/1.2/class-ICanBoogie.PropertyError.html
-[PropertyNotDefined]:    https://icanboogie.org/api/common/1.2/class-ICanBoogie.PropertyNotDefined.html
-[PropertyNotReadable]:   https://icanboogie.org/api/common/1.2/class-ICanBoogie.PropertyNotReadable.html
-[PropertyNotWritable]:   https://icanboogie.org/api/common/1.2/class-ICanBoogie.PropertyNotWritable.html
-[ToArray]:               https://icanboogie.org/api/common/1.2/class-ICanBoogie.ToArray.html
-[ToArrayRecursive]:      https://icanboogie.org/api/common/1.2/class-ICanBoogie.ToArrayRecursive.html
-[ToArrayRecursiveTrait]: https://icanboogie.org/api/common/1.2/class-ICanBoogie.ToArrayRecursiveTrait.html
+[OffsetError]:           lib/OffsetError.php
+[OffsetNotDefined]:      lib/OffsetNotDefined.php
+[OffsetNotReadable]:     lib/OffsetNotReadable.php
+[OffsetNotWritable]:     lib/OffsetNotWritable.php
+[PropertyError]:         lib/PropertyError.php
+[PropertyNotDefined]:    lib/PropertyNotDefined.php
+[PropertyNotReadable]:   lib/PropertyNotReadable.php
+[PropertyNotWritable]:   lib/PropertyNotWritable.php
+[ToArray]:               lib/ToArray.php
+[ToArrayRecursive]:      lib/ToArrayRecursive.php
+[ToArrayRecursiveTrait]: lib/ToArrayRecursiveTrait.php
 [ICanBoogie]:            https://icanboogie.org/

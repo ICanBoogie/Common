@@ -89,7 +89,7 @@ if (!function_exists(__NAMESPACE__ . '\capitalize')) {
  * @param float $position Position at which characters can be removed.
  * @param bool $shortened `true` if the string was shortened, `false` otherwise.
  */
-function shorten(string $str, int $length = 32, float $position = .75, bool &$shortened = null): string
+function shorten(string $str, int $length = 32, float $position = .75, ?bool &$shortened = null): string
 {
     $l = mb_strlen($str);
 
@@ -298,7 +298,7 @@ function format(string $str, array $args = []): string
  *
  * @param array<int|string, mixed> $array
  */
-function stable_sort(array &$array, callable $picker = null): void
+function stable_sort(array &$array, ?callable $picker = null): void
 {
     static $transform, $restore;
 

@@ -1,6 +1,5 @@
 # customization
 
-PACKAGE_NAME = icanboogie/common
 PHPUNIT = vendor/bin/phpunit
 
 # do not edit the following lines
@@ -26,11 +25,19 @@ test-coveralls: test-dependencies
 	@XDEBUG_MODE=coverage $(PHPUNIT) --coverage-clover build/logs/clover.xml
 
 .PHONY: test-container
-test-container:
-	@docker-compose run --rm app bash
+test-container: test-container-71
+
+.PHONY: test-container-71
+test-container-71:
+	@-docker-compose run --rm app71 bash
+	@docker-compose down -v
+
+.PHONY: test-container-84
+test-container-84:
+	@-docker-compose run --rm app84 bash
 	@docker-compose down -v
 
 .PHONY: lint
 lint:
-	@phpcs
-	@vendor/bin/phpstan
+	@XDEBUG_MODE=none phpcs
+	@XDEBUG_MODE=none vendor/bin/phpstan
